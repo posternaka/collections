@@ -42,7 +42,12 @@ class authController {
                 return res.status(400).json({ message: "Wrong password entered."});
             }
             const token = generateToken(user.id, user.role);
-            return res.status(200).json(token);
+            return res.status(200).json({ 
+                token, 
+                id: user.id,
+                username: user.username,
+                role: user.role
+            });
         } catch (error) {
             console.log(error);
             res.status(400).json({ message: "Sign In error"})
