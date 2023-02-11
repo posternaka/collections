@@ -1,13 +1,13 @@
-import React from 'react'
+import { Container } from 'react-bootstrap';
 
 const Account = ({ user }) => {
 
 
 
     return (
-        <div>
+        <Container>
             <h1>{user.username}</h1>
-        </div>
+        </Container>
     )
 }
 

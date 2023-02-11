@@ -16,11 +16,11 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-          <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Layout user={accessUser?.username} />}>
+            <Route index element={ <Home /> } />
             <Route path="signin" element={ <SignIn setUser={setAccessUser} /> } />
             <Route path="signup" element={ <SignUp /> } />
             <Route element={ <PrivateRoutes token={accessUser?.token} /> }>
-              <Route index element={ <Home /> } />
               <Route path="/account" element={ <Account user={accessUser} /> } />
               <Route path="/admin" element={ <Admin token={accessUser?.token} /> } />
             </Route>

@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import { authURL } from "../types/url";
-import { Container, Table } from 'react-bootstrap';
+import { Container, Table, Button, Form } from 'react-bootstrap';
+
+const ROLE = ['user', 'admin'];
 
 const Admin = ({ token }) => {
     const [usersData, setUsersData] = useState([]);
@@ -22,18 +24,37 @@ const Admin = ({ token }) => {
 
     return (
         <Container>
+            <Button variant="primary" size="lg">
+                Block
+            </Button>
+            <Button variant="primary" size="lg">
+                Delete
+            </Button>
+            <Button variant="primary" size="lg">
+                Admin
+            </Button>
+            <Button variant="primary" size="lg">
+                User
+            </Button>
             <Table striped bordered hover className="">
                 <thead>
                     <tr>
-                    <th>#</th>
-                    <th>Username</th>
-                    <th>Collection</th>
+                        <th>
+                            select all
+                        </th>
+                        <th>#</th>
+                        <th>Username</th>
+                        <th>Collection</th>
+                        <th>Role</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         usersData.map((it) => (
                             <tr key={it.id}>
+                                <td>
+                                    <Form.Check type="checkbox" />
+                                </td>
                                 <td>{it.id}</td>
                                 <td>{it.username}</td>
                                 <td>
@@ -41,11 +62,15 @@ const Admin = ({ token }) => {
                                         col.{it.id}
                                     </Link>
                                 </td>
+                                <td>
+                                    {it.role}
+                                </td>
                             </tr>
                         ))
                     }
                 </tbody>
             </Table>
+            <Button variant="primary">Save</Button>
         </Container>
     )
 }

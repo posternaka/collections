@@ -18,6 +18,11 @@ const User = db.define("users",
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: "user"
+        },
+        status: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: "user"
         }
     }
 );

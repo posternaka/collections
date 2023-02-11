@@ -1,4 +1,5 @@
 import { Container, Card, Col, Row } from 'react-bootstrap';
+import Toast from '../components/UI/toast/Toast';
 
 const Home = () => {
   return (
@@ -10,7 +11,7 @@ const Home = () => {
             {Array.from({ length: 4 }).map((_, idx) => (
               <Col key={idx} className="shadow-lg p-3 mb-5 bg-body rounded">
                 <Card>
-                  <Card.Img variant="top" src="https://via.placeholder.com/400/09f.png/fff " />
+                  <Card.Img variant="top" src="https://via.placeholder.com/400/09f.png/fff" />
                   <Card.Body>
                     <Card.Title>Card title</Card.Title>
                     <Card.Text>
@@ -25,6 +26,7 @@ const Home = () => {
           </Row>
         </Col>
       </Row>
+      <Toast />
     </Container>
   );
 }

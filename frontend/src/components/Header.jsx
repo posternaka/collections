@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Button, Container, Form, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 
-const Home = () => {
+const Header = ({ user }) => {
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
@@ -16,22 +16,28 @@ const Home = () => {
           <Button variant="outline-success">Search</Button>
         </Form>
           <Nav className='me-5'>
-            <NavDropdown title="ADD" id="navbarScrollingDropdown">
-              <Link to='/'>
-                creating collection
-              </Link>
-              <Link to='/'>
-                adding items
-              </Link>
-            </NavDropdown>
-            <NavDropdown title="USER NAME" id="navbarScrollingDropdown">
-              <Link to='/account'>
-                your profile
-              </Link>
+            <NavDropdown title={user} id="navbarScrollingDropdown">
+              <NavDropdown.Item>
+                <Link to='/account'>
+                  your profile
+                </Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link to='/'>
+                  creating collection
+                </Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link to='/'>
+                  adding items
+                </Link>
+              </NavDropdown.Item>
               <NavDropdown.Divider />
-              <Link to='/signin'>
-                sign out
-              </Link>
+              <NavDropdown.Item>
+                <Link to='/signin'>
+                  sign out
+                </Link>
+              </NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="ADMIN" id="navbarScrollingDropdown">
               <Link to='/admin'>
@@ -44,4 +50,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default Header;
