@@ -22,7 +22,7 @@ const User = db.define("users",
         status: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: "user"
+            defaultValue: "unblock"
         }
     }
 );

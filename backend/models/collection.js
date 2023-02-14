@@ -3,7 +3,7 @@ const db = require('../utils/database.js');
 
 const { DataTypes } = Sequelize;
 
-const Collection = db.define("collection", 
+const Collection = db.define("collection",
     {
         collectionName: {
             type: DataTypes.STRING,

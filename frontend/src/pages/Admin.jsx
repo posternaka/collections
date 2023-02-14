@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import axios from "axios";
-import { authURL } from "../types/url";
+import { authURL, adminURL } from "../types/url";
 import { Container, Table, Button, Form } from 'react-bootstrap';
 
 const ROLE = ['user', 'admin'];
 
 const Admin = ({ token }) => {
+    const [choise, setChoise] = useState([]);
     const [usersData, setUsersData] = useState([]);
 
     useEffect(() => {
@@ -22,55 +23,100 @@ const Admin = ({ token }) => {
         }
     }
 
+    const updateStatus = async (status) => {
+        try {
+            const result = choise.map(it => ({
+                id: it.id,
+                username: it.username,
+                status,
+            }))
+            await axios.patch(`${authURL}/users`, result);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const updateRole = async (role) => {
+        try {
+            const result = choise.map(it => ({
+                id: it.id,
+                username: it.username,
+                role,
+            }))
+            await axios.patch(`${authURL}/users`, result);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const deleteUsers = async () => {
+        try {
+            const ids = choise.map(it => it.id);
+            await axios.delete(`${authURL}/users`, { data: ids });
+        } catch (error) {
+            
+        }
+    }
+
+    const checkBox = (e, user) => {
+        if(!e.target.checked) {
+            const result = choise.filter(it => it.id !== user.id);
+            return setChoise(result);
+        }
+        return setChoise([...choise, user])
+    } 
+
     return (
         <Container>
-            <Button variant="primary" size="lg">
-                Block
-            </Button>
-            <Button variant="primary" size="lg">
-                Delete
-            </Button>
-            <Button variant="primary" size="lg">
-                Admin
-            </Button>
-            <Button variant="primary" size="lg">
-                User
-            </Button>
+            <div className="my-3 d-flex justify-content-center flex-row gap-2">
+                <Button variant="primary" size="lg" onClick={() => updateStatus('block')}>
+                    Block
+                </Button>
+                <Button variant="primary" size="lg" onClick={() => updateStatus('unblock')}>
+                    Unblock
+                </Button>
+                <Button variant="primary" size="lg" onClick={() => deleteUsers()}>
+                    Delete
+                </Button>
+                <Button variant="primary" size="lg" onClick={() => updateRole('admin')}>
+                    Admin
+                </Button>
+                <Button variant="primary" size="lg" onClick={() => updateRole('user')}>
+                    User
+                </Button>
+            </div>
             <Table striped bordered hover className="">
                 <thead>
                     <tr>
-                        <th>
-                            select all
-                        </th>
                         <th>#</th>
+                        <th>select all</th>
                         <th>Username</th>
                         <th>Collection</th>
                         <th>Role</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         usersData.map((it) => (
                             <tr key={it.id}>
-                                <td>
-                                    <Form.Check type="checkbox" />
-                                </td>
                                 <td>{it.id}</td>
+                                <td>
+                                    <Form.Check type="checkbox" onChange={(e) => checkBox(e, it)} />
+                                </td>
                                 <td>{it.username}</td>
                                 <td>
-                                    <Link to={`users/:${it.id}`}>
+                                    <Link to={`users/${it.id}`}>
                                         col.{it.id}
                                     </Link>
                                 </td>
-                                <td>
-                                    {it.role}
-                                </td>
+                                <td>{it.role}</td>
+                                <td>{it.status}</td>
                             </tr>
                         ))
                     }
                 </tbody>
             </Table>
-            <Button variant="primary">Save</Button>
         </Container>
     )
 }

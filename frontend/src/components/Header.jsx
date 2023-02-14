@@ -16,34 +16,48 @@ const Header = ({ user }) => {
           <Button variant="outline-success">Search</Button>
         </Form>
           <Nav className='me-5'>
-            <NavDropdown title={user} id="navbarScrollingDropdown">
-              <NavDropdown.Item>
-                <Link to='/account'>
-                  your profile
-                </Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item>
-                <Link to='/'>
-                  creating collection
-                </Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item>
-                <Link to='/'>
-                  adding items
-                </Link>
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item>
-                <Link to='/signin'>
-                  sign out
-                </Link>
-              </NavDropdown.Item>
-            </NavDropdown>
-            <NavDropdown title="ADMIN" id="navbarScrollingDropdown">
-              <Link to='/admin'>
-                admin
-              </Link>
-            </NavDropdown>
+            {
+              user?.username &&
+                <NavDropdown title={user.username} id="navbarScrollingDropdown">
+                  <NavDropdown.Item>
+                    <Link to='/account'>
+                      your profile
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <Link to='/'>
+                      creating collection
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <Link to='/'>
+                      adding items
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item>
+                    <Link to='/signin'>
+                      sign out
+                    </Link>
+                  </NavDropdown.Item>
+                </NavDropdown>
+            }
+            {
+              user?.role === 'admin' &&
+                <NavDropdown title="ADMIN" id="navbarScrollingDropdown">
+                  <Link to='/admin'>
+                    admin
+                  </Link>
+                </NavDropdown>
+            }
+            {
+              !user &&
+                <Link to='/signin'><Button variant="primary">Sign In</Button></Link>
+            }
+            {
+              user &&
+                <Link to='/'><Button variant="light" className='ms-5'>Sign Out</Button></Link>
+            }
           </Nav>
       </Container>
     </Navbar>

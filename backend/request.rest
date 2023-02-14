@@ -1,13 +1,13 @@
 GET http://localhost:5000/auth/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY3NTk0MDAyNCwiZXhwIjoxNjc1OTc2MDI0fQ.ekf_o0oOMi_gkmvB0lt7LUPfrWY6ND2xj_0B2z0642U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjc2MTE2ODMyLCJleHAiOjE2NzYxNTI4MzJ9.YfBMxv0yfgog1xqXr1F8HxrwGLQAb5eZTqFSb9UFVdk
 
 ###
 POST http://localhost:5000/auth/signup
 Content-Type: application/json
 
 {
-    "username": "beep",
-    "password": "1234"
+    "username": "Lisa",
+    "password": "12345"
 }
 
 ###
@@ -15,6 +15,6 @@ POST http://localhost:5000/auth/signin
 Content-Type: application/json
 
 {
-    "username": "Owl",
-    "password": "1234"
+    "username": "Dasha",
+    "password": "12345"
 }
