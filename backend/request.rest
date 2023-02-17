@@ -18,3 +18,20 @@ Content-Type: application/json
     "username": "Dasha",
     "password": "12345"
 }
+
+
+###
+POST http://localhost:5000/collection
+Content-Type: application/json
+
+{
+    "idUser" : "1",
+    "collectionName" : "Sport",
+    "theme" : "Books",
+    "description" : "Arsenal.",
+    "settings" : "11 23 52" 
+}
+
+
+###
+GET http://localhost:5000/collection/2

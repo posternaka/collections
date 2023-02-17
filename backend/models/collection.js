@@ -6,8 +6,7 @@ const { DataTypes } = Sequelize;
 const Collection = db.define("collection",
     {
         idUser: {
-            type: DataTypes.NUMBER,
-            allowNull: false
+            type: DataTypes.STRING
         },
         collectionName: {
             type: DataTypes.STRING,
