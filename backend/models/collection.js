@@ -5,7 +5,15 @@ const { DataTypes } = Sequelize;
 
 const Collection = db.define("collection",
     {
+        idUser: {
+            type: DataTypes.NUMBER,
+            allowNull: false
+        },
         collectionName: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        theme: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -13,8 +21,8 @@ const Collection = db.define("collection",
             type: DataTypes.STRING,
             allowNull: false
         },
-        idUser: {
-            type: DataTypes.NUMBER,
+        settings: {
+            type: DataTypes.STRING,
             allowNull: false
         }
     }

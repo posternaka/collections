@@ -2,14 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
 import PrivateRoutes from "./routes/PrivateRoutes";
-import SignIn from "./pages/SignIn";
-import Home from "./pages/Home";
-import Account from "./pages/Account";
-import Admin from "./pages/Admin";
-import Item from "./pages/Item";
-
-import SignUp from "./components/SignUp";
-import Layout from "./components/Layout";
+import { Account, Admin, Home, Item, SignIn } from './pages/index';
+import { EditCollection, EditItem, Layout, SignUp } from './components/index';
 
 const App = () => {
   const [accessUser, setAccessUser] = useState(null);
@@ -24,6 +18,8 @@ const App = () => {
             <Route element={ <PrivateRoutes token={ accessUser?.token } /> }>
               <Route path="/account" element={ <Account user={ accessUser } /> } />
               <Route path="/item" element={ <Item />} />
+              <Route path="/edit_item" element={ <EditItem />} />
+              <Route path="/edit_collection" element={ <EditCollection />} />
               <Route path="/admin" element={ <Admin token={ accessUser?.token } /> } />
             </Route>
           </Route>

@@ -16,7 +16,7 @@ const Admin = ({ token }) => {
 
     const getUsers = async () => {
         try {
-            const users = await axios.get(`${authURL}/users`, { headers: { "Authorization" : `Bearer ${ token }` }});
+            const users = await axios.get(`${adminURL}/users`, { headers: { "Authorization" : `Bearer ${ token }` }});
             setUsersData(users.data);
         } catch (error) {
             console.log(error);
@@ -30,7 +30,7 @@ const Admin = ({ token }) => {
                 username: it.username,
                 status,
             }))
-            await axios.patch(`${authURL}/users`, result);
+            await axios.patch(`${adminURL}/users`, result);
         } catch (error) {
             console.log(error);
         }
@@ -43,7 +43,7 @@ const Admin = ({ token }) => {
                 username: it.username,
                 role,
             }))
-            await axios.patch(`${authURL}/users`, result);
+            await axios.patch(`${adminURL}/users`, result);
         } catch (error) {
             console.log(error);
         }
@@ -52,7 +52,7 @@ const Admin = ({ token }) => {
     const deleteUsers = async () => {
         try {
             const ids = choise.map(it => it.id);
-            await axios.delete(`${authURL}/users`, { data: ids });
+            await axios.delete(`${adminURL}/users`, { data: ids });
         } catch (error) {
             
         }

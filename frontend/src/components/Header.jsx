@@ -5,7 +5,7 @@ const Header = ({ user }) => {
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Link to='/' className='ms-5'>your collection</Link>
+        <Link to='/' className='ms-5 text-decoration-none text-muted'>your collection</Link>
         <Form className="d-flex">
           <Form.Control
             type="search"
@@ -18,28 +18,28 @@ const Header = ({ user }) => {
           <Nav className='me-5'>
             {
               user?.username &&
-                <NavDropdown title={user.username} id="navbarScrollingDropdown">
-                  <NavDropdown.Item>
-                    <Link to='/account'>
+                <NavDropdown title={user.username} id="navbarScrollingDropdown" >
+                  <div className='d-flex flex-column mx-2'>
+                    <Link to='/account' className='text-decoration-none text-muted'>
                       your profile
                     </Link>
-                  </NavDropdown.Item>
-                  <NavDropdown.Item>
-                    <Link to='/'>
+                  
+                  
+                    <Link to='/edit_collection' className='text-decoration-none text-muted'>
                       creating collection
                     </Link>
-                  </NavDropdown.Item>
-                  <NavDropdown.Item>
-                    <Link to='/'>
-                      adding items
+                  
+                  
+                    <Link to='/' className='text-decoration-none text-muted'>
+                      -
                     </Link>
-                  </NavDropdown.Item>
+                  
                   <NavDropdown.Divider />
-                  <NavDropdown.Item>
-                    <Link to='/signin'>
+                  
+                    <Link to='/signin' className='text-decoration-none text-muted'>
                       sign out
                     </Link>
-                  </NavDropdown.Item>
+                  </div>
                 </NavDropdown>
             }
             {

@@ -13,8 +13,5 @@ router.post('/signup', [
     check('password', errorMessagePassword).isLength({ min: 4, max: 20 })
 ], authController.signup);
 router.post('/signin', authController.signin);
-router.get('/users', roleMiddleware("admin"), authController.getUsers);
-router.patch('/users', authController.updateUser);
-router.delete('/users', authController.deleteUser);
 
 module.exports = router;
