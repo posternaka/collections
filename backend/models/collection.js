@@ -8,6 +8,10 @@ const Collection = db.define("collection",
         idUser: {
             type: DataTypes.STRING
         },
+        img: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         collectionName: {
             type: DataTypes.STRING,
             allowNull: false

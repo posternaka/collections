@@ -19,7 +19,7 @@ const App = () => {
               <Route path="/account" element={ <Account user={ accessUser } /> } />
               <Route path="/item" element={ <Item />} />
               <Route path="/edit_item" element={ <EditItem />} />
-              <Route path="/edit_collection" element={ <EditCollection />} />
+              <Route path="/edit_collection" element={ <EditCollection userId={ accessUser?.id } />} />
               <Route path="/admin" element={ <Admin token={ accessUser?.token } /> } />
             </Route>
           </Route>

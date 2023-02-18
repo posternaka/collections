@@ -26,12 +26,16 @@ Content-Type: application/json
 
 {
     "idUser" : "1",
+    "img": "img",
     "collectionName" : "Sport",
     "theme" : "Books",
-    "description" : "Arsenal.",
+    "description" : "MU.",
     "settings" : "11 23 52" 
 }
 
 
 ###
 GET http://localhost:5000/collection/2
+
+###
+DELETE http://localhost:5000/collection/6
