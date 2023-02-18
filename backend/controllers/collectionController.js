@@ -7,7 +7,9 @@ class collectionController {
                 { 
                     where: { 
                         idUser: req.params.id
-                    }
+                    },
+                    raw: true, 
+                    nest:true
                 }
             );
             res.status(200).json(collection);
@@ -28,13 +30,13 @@ class collectionController {
     }
 
     async updateCollection(req, res) {
-        console.log(req);
         try {
             const result = await Collection.update(
                 {
                     collectionName: req.body.collectionName,
                     theme: req.body.theme,
-                    description: req.body.description
+                    description: req.body.description,
+                    settings: req.body.settings
                 },
                 {
                     where: {

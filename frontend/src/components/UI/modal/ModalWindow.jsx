@@ -1,6 +1,6 @@
 import { Button, Modal} from 'react-bootstrap';
 
-const ModalWindow = ({ show, setShow, saveSetting, children }) => {
+const ModalWindow = ({ show, setShow, handleSetJson, children }) => {
     const handleClose = () => setShow(false);
 
     return (
@@ -16,7 +16,7 @@ const ModalWindow = ({ show, setShow, saveSetting, children }) => {
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={saveSetting}>
+                <Button variant="primary" onClick={handleSetJson}>
                     Save Changes
                 </Button>
             </Modal.Footer>

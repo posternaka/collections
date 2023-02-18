@@ -1,11 +1,15 @@
 import { Link } from 'react-router-dom';
-import { Button, Container, Form, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Button, Container, Form, Nav, Navbar, NavDropdown, Badge } from 'react-bootstrap';
 
 const Header = ({ user }) => {
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Link to='/' className='ms-5 text-decoration-none text-muted'>your collection</Link>
+        <Link to='/' className='ms-5 text-decoration-none text-muted'>
+          <Badge bg="success">
+            YOUR COLLECTION
+          </Badge>
+        </Link>
         <Form className="d-flex">
           <Form.Control
             type="search"
@@ -18,29 +22,9 @@ const Header = ({ user }) => {
           <Nav className='me-5'>
             {
               user?.username &&
-                <NavDropdown title={user.username} id="navbarScrollingDropdown" >
-                  <div className='d-flex flex-column mx-2'>
                     <Link to='/account' className='text-decoration-none text-muted'>
-                      your profile
+                      <Button variant="success">{user.username}</Button> 
                     </Link>
-                  
-                  
-                    <Link to='/edit_collection' className='text-decoration-none text-muted'>
-                      creating collection
-                    </Link>
-                  
-                  
-                    <Link to='/' className='text-decoration-none text-muted'>
-                      -
-                    </Link>
-                  
-                  <NavDropdown.Divider />
-                  
-                    <Link to='/signin' className='text-decoration-none text-muted'>
-                      sign out
-                    </Link>
-                  </div>
-                </NavDropdown>
             }
             {
               user?.role === 'admin' &&

@@ -13,6 +13,7 @@ class adminController {
 
     async updateUser(req, res) {
         try {
+            console.log(req.body);
             const users = await User.bulkCreate(req.body, {
                 updateOnDuplicate: ['status', 'role']
             });

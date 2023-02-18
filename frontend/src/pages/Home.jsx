@@ -1,7 +1,7 @@
-import { Container, Card, Col, Row } from 'react-bootstrap';
+import { Container, Col, Row } from 'react-bootstrap';
 import Toast from '../components/UI/toast/Toast';
 
-const Home = () => {
+const Home = ({ user }) => {
   return (
     <Container>
       <Row className='mt-5'>
@@ -10,7 +10,10 @@ const Home = () => {
           <h2>Hello</h2>
         </Col>
       </Row>
-      <Toast />
+      {
+        user 
+          && <Toast user={user} />
+      }
     </Container>
   );
 }

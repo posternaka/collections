@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Container, Row } from 'react-bootstrap';
 import { getCollection } from '../rest/collection';
 
-import ViewCard from '../components/cards/ViewCard';
+import ViewCard from '../components/cards/collection/ViewCard';
 
 const Account = ({ user }) => {
     const [collections, setCollections] = useState([]);

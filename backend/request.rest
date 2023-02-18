@@ -26,7 +26,7 @@ Content-Type: application/json
 
 {
     "idUser" : "1",
-    "img": "img",
+    "image": "img",
     "collectionName" : "Sport",
     "theme" : "Books",
     "description" : "MU.",

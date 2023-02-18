@@ -8,7 +8,7 @@ const Collection = db.define("collection",
         idUser: {
             type: DataTypes.STRING
         },
-        img: {
+        image: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -25,7 +25,7 @@ const Collection = db.define("collection",
             allowNull: false
         },
         settings: {
-            type: DataTypes.STRING,
+            type: DataTypes.JSON,
             allowNull: false
         }
     }

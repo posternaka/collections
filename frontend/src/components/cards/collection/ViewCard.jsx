@@ -6,7 +6,6 @@ import ReadCard from './ReadCard';
 
 const ViewCard = ({ collection }) => {
     const [isEdit, setIsEdit] = useState(false);
-    console.log(isEdit);
 
     return (
         <Col>

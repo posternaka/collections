@@ -19,14 +19,13 @@ export const createCollection = async (body) => {
 }
 
 export const updateCollection = async (body) => {
-    console.log(body);
     try {
-        const collections = await axios.patch(`${collectionUrl}/${body.id}`, {
+        return await axios.patch(`${collectionUrl}/${body.id}`, {
             collectionName: body.newName,
             theme: body.newTheme,
-            description: body.newDesc
+            description: body.newDesc,
+            settings: body.newSettings
         });
-        return collections.data;
     } catch (error) {
         console.log(error);
     }

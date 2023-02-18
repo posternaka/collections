@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Card, Button } from 'react-bootstrap';
-import { deleteCollection } from '../../rest/collection';
+import { deleteCollection } from '../../../rest/collection';
 
 const ViewCard = ({ collection, setIsEdit }) => {
     return (

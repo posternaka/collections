@@ -12,7 +12,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
           <Route path="/" element={<Layout user={ accessUser } />}>
-            <Route index element={ <Home /> } />
+            <Route index element={ <Home user={ accessUser } /> } />
             <Route path="signin" element={ <SignIn setUser={ setAccessUser } /> } />
             <Route path="signup" element={ <SignUp /> } />
             <Route element={ <PrivateRoutes token={ accessUser?.token } /> }>
