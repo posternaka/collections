@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import PrivateRoutes from "./routes/PrivateRoutes";
 import { Account, Admin, Home, Item, SignIn } from './pages/index';
-import { EditCollection, EditItem, Layout, SignUp } from './components/index';
+import { Collection, EditItem, Layout, SignUp } from './components/index';
 
 const App = () => {
   const [accessUser, setAccessUser] = useState(null);
@@ -19,7 +19,7 @@ const App = () => {
               <Route path="/account" element={ <Account user={ accessUser } /> } />
               <Route path="/item" element={ <Item />} />
               <Route path="/edit_item" element={ <EditItem />} />
-              <Route path="/edit_collection" element={ <EditCollection userId={ accessUser?.id } />} />
+              <Route path="/collection" element={ <Collection userId={ accessUser?.id } />} />
               <Route path="/admin" element={ <Admin token={ accessUser?.token } /> } />
             </Route>
           </Route>

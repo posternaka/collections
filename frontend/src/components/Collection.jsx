@@ -6,7 +6,7 @@ import { theme, options } from '../types/theme';
 
 import ModalWindow from './UI/modal/ModalWindow';
 
-const EditCollection = ({ userId }) => {
+const Collection = ({ userId }) => {
     const [show, setShow] = useState(false);
     const [settingsItem, setSettingsItem] = useState([]);
     const [collectionName, setCollectionName] = useState('');
@@ -105,4 +105,4 @@ const EditCollection = ({ userId }) => {
     )
 }
 
-export default EditCollection
+export default Collection

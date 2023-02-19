@@ -5,22 +5,36 @@ import { updateCollection } from '../../../rest/collection';
 import { theme, options } from '../../../types/theme'; 
 
 const ViewCard = ({ collection, setIsEdit }) => {
+    const jsonDate = JSON.parse(collection.settings);
+
     const [newName, setNewName] = useState(collection.collectionName);
     const [newTheme, setNewTheme] = useState(collection.theme);
     const [newDesc, setNewDesc] = useState(collection.description);
-    const [newSettings, setNewSettings] = useState([]);
-    const [modalName, setModalName] = useState('');
-    const [modalType, setModalType] = useState('checkbox');
+    const [newSettings, setNewSettings] = useState(jsonDate);
 
-    const jsonDate = JSON.parse(collection.settings);
+    const handleNewSettingsName = (id, name) => {
+        setNewSettings(prevState => 
+          prevState.map(item => 
+            item.orders === id 
+              ? { ...item, name }
+              : item
+          )
+        )
+    }
+
+    const handleNewSettingsType = (id, type) => {
+        setNewSettings(prevState => 
+          prevState.map(item => 
+            item.orders === id 
+              ? { ...item, type }
+              : item
+          )
+        )
+    }
 
     const update = () => {
         setIsEdit(false);
-
-        console.log(modalName, modalType);
-        setNewSettings([...newSettings, { name: modalName, type: modalType, orders: newSettings.length + 1 }]);
-        console.log(newSettings);
-        updateCollection({ id: collection.id, newName, newTheme, newDesc, newSettings })
+        updateCollection({ id: collection.id, newName, newTheme, newDesc, newSettings });
     }
 
     return (
@@ -49,13 +63,13 @@ const ViewCard = ({ collection, setIsEdit }) => {
                 <span>Settings:</span>
                 {
                     jsonDate.map(it => (
-                        <div className='d-flex justify-content-between gap-1'>
+                        <div key={it.orders} className='d-flex justify-content-between gap-1'>
                             <Form.Control 
                                 type="text" 
                                 defaultValue={it.name} 
-                                onChange={(e) => setModalName(e.target.value)} 
+                                onChange={(e) => handleNewSettingsName(it.orders, e.target.value)}
                             />
-                            <Form.Select aria-label={it.type} defaultValue={it.type} onChange={(e) => setModalType(e.target.value)}>
+                            <Form.Select aria-label={it.type} defaultValue={it.type} onChange={(e) => handleNewSettingsType(it.orders, e.target.value)}>
                                 {
                                     options.map((it, idx) => (
                                         <option key={idx} value={it}>{it}</option>
