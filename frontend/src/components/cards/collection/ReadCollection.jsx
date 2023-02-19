@@ -7,7 +7,7 @@ const ViewCard = ({ collection, setIsEdit }) => {
         <>
             <Card.Img variant="top" src="https://via.placeholder.com/110x100/09f.png/fff" />
             <Card.Body>
-                <Link to='/item' className='text-decoration-none text-reset'>
+                <Link to={`/collection/${collection.id}`} className='text-decoration-none text-reset'>
                     <div className='d-flex justify-content-between'>
                         <Card.Title>{ collection.collectionName }</Card.Title>
                         <Card.Text className='opacity-50'>{ collection.theme }</Card.Text>

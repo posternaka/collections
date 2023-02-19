@@ -22,17 +22,17 @@ const ViewCard = ({ collection, setIsEdit }) => {
         )
     }
 
-    const handleNewSettingsType = (id, type) => {
-        setNewSettings(prevState => 
-          prevState.map(item => 
-            item.orders === id 
-              ? { ...item, type }
-              : item
-          )
-        )
-    }
+    // const handleNewSettingsType = (id, type) => {
+    //     setNewSettings(prevState => 
+    //       prevState.map(item => 
+    //         item.orders === id 
+    //           ? { ...item, type }
+    //           : item
+    //       )
+    //     )
+    // }
 
-    const update = () => {
+    const updateSettings = () => {
         setIsEdit(false);
         updateCollection({ id: collection.id, newName, newTheme, newDesc, newSettings });
     }
@@ -61,26 +61,32 @@ const ViewCard = ({ collection, setIsEdit }) => {
                     onChange={(e) => setNewDesc(e.target.value)} 
                 />
                 <span>Settings:</span>
+                <Button variant="light">+</Button>
                 {
                     jsonDate.map(it => (
-                        <div key={it.orders} className='d-flex justify-content-between gap-1'>
+                        <div key={it.orders} className='d-flex justify-content-between align-items-center gap-1'>
                             <Form.Control 
+                                className="w-50"
                                 type="text" 
                                 defaultValue={it.name} 
                                 onChange={(e) => handleNewSettingsName(it.orders, e.target.value)}
                             />
-                            <Form.Select aria-label={it.type} defaultValue={it.type} onChange={(e) => handleNewSettingsType(it.orders, e.target.value)}>
+                            <span className='opacity-50'>(type: {it.type})</span>
+                            {/* <Form.Select aria-label={it.type} defaultValue={it.type} onChange={(e) => handleNewSettingsType(it.orders, e.target.value)}>
                                 {
                                     options.map((it, idx) => (
                                         <option key={idx} value={it}>{it}</option>
                                     ))
                                 }
-                            </Form.Select>
+                            </Form.Select> */}
                         </div>
                     ))
                 }
-                <div className='d-flex justify-content-end flex-row'>
-                    <Button variant="outline-warning" size="sm" onClick={() => update()}>
+                <div className='d-flex justify-content-end flex-row gap-1'>
+                    <Button variant="outline-warning" size="sm" onClick={() => setIsEdit(false)}>
+                        &#9650;
+                    </Button>
+                    <Button variant="outline-warning" size="sm" onClick={() => updateSettings()}>
                         Save
                     </Button>
                 </div>

@@ -22,7 +22,7 @@ const Header = ({ user }) => {
           <Nav className='me-5'>
             {
               user?.username &&
-                    <Link to='/account' className='text-decoration-none text-muted'>
+                    <Link to='/profile' className='text-decoration-none text-muted'>
                       <Button variant="success">{user.username}</Button> 
                     </Link>
             }

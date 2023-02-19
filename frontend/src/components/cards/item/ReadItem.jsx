@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Card, ListGroup, Container, Form, Badge, Button } from 'react-bootstrap';
 
-const Item = () => {
+const ReadItem = () => {
+  const { id } = useParams();
+  console.log(id);
   return (
     <Container>
-      <Link to='/edit_item' className='my-3 text-decoration-none d-flex flex-column justify-content-center align-items-center'>
+      <Link to='/add_item' className='my-3 text-decoration-none d-flex flex-column justify-content-center align-items-center'>
           <span className='display-1'>+</span>
           <p>add new item</p>
       </Link>
@@ -21,7 +23,7 @@ const Item = () => {
           </div>
         </Card.Header>
         <ListGroup variant="flush">
-          <ListGroup.Item className='d-flex gap-3 align-items-center'>
+          <ListGroup.Item className='d-flex flex-column gap-3'>
             <Form.Check type='checkbox' label='прочитано' id='checkbox' />
             <span className='opacity-75 fw-bold'>Сборы: </span><span>974,8 миллиона USD</span>
             <span className='opacity-75 fw-bold'>Автор: </span><span>Д. Роулинг</span>
@@ -48,4 +50,4 @@ const Item = () => {
   )
 }
 
-export default Item
+export default ReadItem;

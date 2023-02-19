@@ -1,11 +1,11 @@
 export const theme = ['Book', 'Movie', 'Game', 'Music', 'Car', 'Alcohol'];
 
-export const options = ['checkbox', 'number', 'text', 'textarea', 'boolean'];
+export const options = ['number', 'text', 'markdown', 'date', 'boolean'];
 
-// let fields = [
-//     { type: 'checkbox', html: `<Form.Check type='checkbox' label='checkbox' id='checkbox' />` },
-//     { type: 'number', html: `<Form.Control type="number" placeholder="Enter number" />` },
-//     { type: 'text', html: `<Form.Control type="text" placeholder="Enter text" />` },
-//     { type: 'textarea', html: `<Form.Control as="textarea" rows={1}  placeholder="Enter textarea" />` },
-//     { type: 'boolean', html: `<Form.Control type="date" placeholder="Enter date" />` },
-// ];
+export const fieldsMap = {
+    number: `<Form.Control type="number" placeholder="Enter number" />`,
+    text: `<Form.Control type="text" placeholder="Enter text" />`,
+    markdown: `<Form.Control type="text" placeholder="Enter textarea" />`,
+    date: `<Form.Control type="date" placeholder="Enter date" />`,
+    boolean: `<Form.Check type="checkbox" label='checkbox' id='checkbox' />`,
+};

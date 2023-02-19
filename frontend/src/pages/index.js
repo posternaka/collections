@@ -1,7 +1,9 @@
-import Account from "./Account";
+import Profile from "./Profile";
 import Admin from "./Admin";
 import Home from "./Home";
-import Item from "./Item";
 import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+import AddCollection from "./AddCollection";
+import AddItem from "./AddItem";
 
-export { Account, Admin, Home, Item, SignIn }
+export { Profile, Admin, Home, SignIn, SignUp, AddCollection, AddItem }

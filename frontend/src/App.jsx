@@ -2,8 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
 import PrivateRoutes from "./routes/PrivateRoutes";
-import { Account, Admin, Home, Item, SignIn } from './pages/index';
-import { Collection, EditItem, Layout, SignUp } from './components/index';
+import Layout from "./routes/Layout";
+import { Profile, Admin, Home, SignIn, SignUp, AddCollection, AddItem } from './pages/index';
+import { ItemCard } from './components/index';
 
 const App = () => {
   const [accessUser, setAccessUser] = useState(null);
@@ -16,10 +17,10 @@ const App = () => {
             <Route path="signin" element={ <SignIn setUser={ setAccessUser } /> } />
             <Route path="signup" element={ <SignUp /> } />
             <Route element={ <PrivateRoutes token={ accessUser?.token } /> }>
-              <Route path="/account" element={ <Account user={ accessUser } /> } />
-              <Route path="/item" element={ <Item />} />
-              <Route path="/edit_item" element={ <EditItem />} />
-              <Route path="/collection" element={ <Collection userId={ accessUser?.id } />} />
+              <Route path="/profile" element={ <Profile user={ accessUser } /> } />
+              <Route path="/collection/:id" element={ <ItemCard />} />
+              <Route path="/add_item" element={ <AddItem />} />
+              <Route path="/add_collection" element={ <AddCollection userId={ accessUser?.id } />} />
               <Route path="/admin" element={ <Admin token={ accessUser?.token } /> } />
             </Route>
           </Route>

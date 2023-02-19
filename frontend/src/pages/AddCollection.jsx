@@ -4,9 +4,9 @@ import { Container, Row, Col, Card, Button, Form, ListGroup } from 'react-bootst
 import { createCollection } from '../rest/collection';
 import { theme, options } from '../types/theme';
 
-import ModalWindow from './UI/modal/ModalWindow';
+import ModalWindow from '../components/UI/modal/ModalWindow';
 
-const Collection = ({ userId }) => {
+const AddCollection = ({ userId }) => {
     const [show, setShow] = useState(false);
     const [settingsItem, setSettingsItem] = useState([]);
     const [collectionName, setCollectionName] = useState('');
@@ -14,8 +14,6 @@ const Collection = ({ userId }) => {
     const [themeCollection, setThemeCollection] = useState('');
     const [modalName, setModalName] = useState('');
     const [modalType, setModalType] = useState('checkbox');
-
-
 
     const handleSetJson = () => {
         setSettingsItem([...settingsItem, { name: modalName, type: modalType, orders: settingsItem.length + 1 }]);
@@ -105,4 +103,4 @@ const Collection = ({ userId }) => {
     )
 }
 
-export default Collection
+export default AddCollection;
