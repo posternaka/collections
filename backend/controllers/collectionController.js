@@ -1,15 +1,32 @@
 const Collection = require('../models/collection.js');
 
 class collectionController {
-    async getCollections(req, res) {
+    async getCollections (req, res) {
         try {
-            const collection = await Collection.findAll(
+            const collections = await Collection.findAll(
                 { 
                     where: { 
                         idUser: req.params.id
                     },
                     raw: true, 
                     nest:true
+                }
+            );
+            res.status(200).json(collections);
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({ message: "Failed to get collection." });
+        }
+    };
+
+    async getCollection (req, res) {
+        try {
+            const collection = await Collection.findOne(
+                { 
+                    where: { 
+                        id: req.params.id
+                    },
+                    attributes: ['id', 'settings']
                 }
             );
             res.status(200).json(collection);
@@ -19,7 +36,7 @@ class collectionController {
         }
     };
 
-    async createCollection(req, res) {
+    async createCollection (req, res) {
         try {
             const collection = await Collection.create(req.body);
             return res.status(201).json(collection);
@@ -29,7 +46,7 @@ class collectionController {
         }
     }
 
-    async updateCollection(req, res) {
+    async updateCollection (req, res) {
         try {
             const result = await Collection.update(
                 {
@@ -51,7 +68,7 @@ class collectionController {
         }
     }
 
-    async deleteCollection(req, res) {
+    async deleteCollection (req, res) {
         try {
             await Collection.destroy(
                 {

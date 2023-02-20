@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    fields: {}
+    fields: {},
+    collection: {}
 };
 
 const ItemSlice = createSlice({
@@ -10,9 +11,12 @@ const ItemSlice = createSlice({
     reducers: {
         setFields(state, action) {
             state.fields[action.payload.name] = action.payload.value
+        },
+        setCollection(state, action) {
+            state.collection = action.payload;
         }
     }
 })
 
 export default ItemSlice.reducer;
-export const { setFields } = ItemSlice.actions;
+export const { setFields, setCollection } = ItemSlice.actions;

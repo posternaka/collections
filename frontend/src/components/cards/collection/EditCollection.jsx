@@ -5,12 +5,12 @@ import { updateCollection } from '../../../rest/collection';
 import { theme, options } from '../../../types/theme'; 
 
 const ViewCard = ({ collection, setIsEdit }) => {
-    const jsonDate = JSON.parse(collection.settings);
+    const jsonData = JSON.parse(collection.settings);
 
     const [newName, setNewName] = useState(collection.collectionName);
     const [newTheme, setNewTheme] = useState(collection.theme);
     const [newDesc, setNewDesc] = useState(collection.description);
-    const [newSettings, setNewSettings] = useState(jsonDate);
+    const [newSettings, setNewSettings] = useState(jsonData);
 
     const handleNewSettingsName = (id, name) => {
         setNewSettings(prevState => 
@@ -63,7 +63,7 @@ const ViewCard = ({ collection, setIsEdit }) => {
                 <span>Settings:</span>
                 <Button variant="light">+</Button>
                 {
-                    jsonDate.map(it => (
+                    jsonData.map(it => (
                         <div key={it.orders} className='d-flex justify-content-between align-items-center gap-1'>
                             <Form.Control 
                                 className="w-50"

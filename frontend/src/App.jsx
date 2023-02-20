@@ -3,8 +3,7 @@ import { useState } from "react";
 
 import PrivateRoutes from "./routes/PrivateRoutes";
 import Layout from "./routes/Layout";
-import { Profile, Admin, Home, SignIn, SignUp, AddCollection, AddItem } from './pages/index';
-import { ItemCard } from './components/index';
+import { Profile, Item, Admin, Home, SignIn, SignUp, AddCollection, AddItem } from './pages/index';
 
 const App = () => {
   const [accessUser, setAccessUser] = useState(null);
@@ -18,7 +17,7 @@ const App = () => {
             <Route path="signup" element={ <SignUp /> } />
             <Route element={ <PrivateRoutes token={ accessUser?.token } /> }>
               <Route path="/profile" element={ <Profile user={ accessUser } /> } />
-              <Route path="/collection/:id" element={ <ItemCard />} />
+              <Route path="/collection/:id" element={ <Item />} />
               <Route path="/add_item" element={ <AddItem />} />
               <Route path="/add_collection" element={ <AddCollection userId={ accessUser?.id } />} />
               <Route path="/admin" element={ <Admin token={ accessUser?.token } /> } />

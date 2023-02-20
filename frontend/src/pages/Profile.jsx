@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row } from 'react-bootstrap';
-import { getCollection } from '../rest/collection';
+import { getCollections } from '../rest/collection';
 
 import CollectionCard from '../components/cards/collection/CollectionCard';
 
@@ -13,7 +13,7 @@ const Profile = ({ user }) => {
     }, []);
 
     const dataCollections = async () => {
-        const result = await getCollection(user.id);
+        const result = await getCollections(user.id);
         setCollections(result);
     }
 

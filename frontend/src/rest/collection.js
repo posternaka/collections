@@ -1,10 +1,19 @@
 import { collectionUrl } from '../types/url';
 import axios from 'axios';
 
+export const getCollections = async (id) => {
+    try {
+        const collections = await axios.get(`${collectionUrl}/all/${id}`);
+        return collections.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const getCollection = async (id) => {
     try {
-        const collections = await axios.get(`${collectionUrl}/${id}`);
-        return collections.data;
+        const collection = await axios.get(`${collectionUrl}/${id}`);
+        return collection.data;
     } catch (error) {
         console.log(error);
     }

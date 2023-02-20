@@ -1,15 +1,8 @@
-import { Link, useParams } from 'react-router-dom';
 import { Card, ListGroup, Container, Form, Badge, Button } from 'react-bootstrap';
 
 const ReadItem = () => {
-  const { id } = useParams();
-  console.log(id);
   return (
     <Container>
-      <Link to='/add_item' className='my-3 text-decoration-none d-flex flex-column justify-content-center align-items-center'>
-          <span className='display-1'>+</span>
-          <p>add new item</p>
-      </Link>
       <Card className='mt-3'>
         <Card.Header className='d-flex justify-content-between align-items-center'>
           <span>№1 Harry Potter</span>
