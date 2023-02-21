@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFields } from '../redux/item/ItemSlice';
 import { Card, ListGroup, Container, Form, Badge, Button } from 'react-bootstrap';
+import { updateItem } from '../rest/item';
 
 const AddItem = () => {
   const collection = useSelector(state => state.item.collection);
@@ -55,7 +56,7 @@ const AddItem = () => {
           </ListGroup.Item>
         </ListGroup>
       </Card>
-      <Button className='mt-3 d-grid gap-2 col-2 mx-auto' variant="primary" size="lg">
+      <Button className='mt-3 d-grid gap-2 col-2 mx-auto' variant="primary" size="lg" onClick={() => updateItem()}>
           Save 
       </Button>
     </Container>
