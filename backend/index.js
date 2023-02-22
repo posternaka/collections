@@ -5,6 +5,7 @@ const authRoute = require('./routes/authRoute.js');
 const adminRoute = require('./routes/adminRoute.js');
 const collectionRoute = require('./routes/collectionRoute.js');
 const itemRoute = require('./routes/itemRoute.js');
+const tagRoute = require('./routes/tagRoute.js');
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -15,6 +16,7 @@ app.use('/auth', authRoute);
 app.use('/admin', adminRoute);
 app.use('/collection', collectionRoute);
 app.use('/item', itemRoute);
+app.use('/tag', tagRoute);
 
 const start = async () => {
     try {

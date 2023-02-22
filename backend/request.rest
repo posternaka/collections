@@ -52,7 +52,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5000/item/1
+DELETE http://localhost:5000/item/7
 
 ###
 GET http://localhost:5000/item/all/18
@@ -69,3 +69,20 @@ Content-Type: application/json
     "name": "Bober",
     "params": "[{b: '1', a: 'r'}]"
 }
+
+
+// TAG
+###
+POST http://localhost:5000/tag
+Content-Type: application/json
+
+{
+    "collectionId": "17",
+    "tags": ["success", "danger", "secondary"]
+}
+
+###
+GET http://localhost:5000/tag/17
+
+###
+GET http://localhost:5000/tag

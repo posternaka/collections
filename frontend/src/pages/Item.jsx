@@ -1,25 +1,32 @@
 import { Link, useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import { getCollection } from '../rest/collection';
+import { getItems } from '../rest/item';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCollection } from '../redux/item/ItemSlice';
+import { setCollection, setItems } from '../redux/item/ItemSlice';
 
-import ReadItem from '../components/cards/item/ReadItem';
-import EditItem from '../components/cards/item/EditItem'
+import ItemCard from '../components/cards/item/ItemCard';
 
 const Item = () => {
     const dispatch = useDispatch();
-    const [isEdit, setIsEdit] = useState(false);
     const { id } = useParams();
+    const collection = useSelector(state => state.item.collection);
+    const items = useSelector(state => state.item.items);
 
     useEffect(() => {
-        getDataCollection();
+        getDataCollection(id);
+        getDataItems(id);
     }, []);
 
-    const getDataCollection = async () => {
+    const getDataCollection = async (id) => {
         const result = await getCollection(id);
         dispatch(setCollection(result));
+    };
+
+    const getDataItems = async (id) => {
+        const result = await getItems(id);
+        dispatch(setItems(result));
     };
 
 
@@ -30,9 +37,9 @@ const Item = () => {
             <p>add new item</p>
         </Link>
             {
-                isEdit 
-                        ? <EditItem setIsEdit={setIsEdit} /> 
-                        : <ReadItem setIsEdit={setIsEdit} />
+                items.map(it => (
+                    <ItemCard key={it.id} item={it} sets={collection.settings} />
+                ))
             }
         </Container>
     )

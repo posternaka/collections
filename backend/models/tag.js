@@ -3,20 +3,16 @@ const db = require('../utils/database.js');
 
 const { DataTypes } = Sequelize;
 
-const Item = db.define('item', 
+const Tag = db.define('tag', 
     {
         collectionId: {
             type: DataTypes.STRING
         },
-        nameItem: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        params: {
+        tags: {
             type: DataTypes.JSON,
             allowNull: false
         }
     }
-);
+)
 
-module.exports = Item;
+module.exports = Tag;

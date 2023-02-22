@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFields } from '../redux/item/ItemSlice';
+import { setName, setFields } from '../redux/item/ItemSlice';
 import { Card, ListGroup, Container, Form, Badge, Button } from 'react-bootstrap';
-import { updateItem } from '../rest/item';
+import { createItem } from '../rest/item';
+import { joinValue } from '../helpers/index';
 
 const AddItem = () => {
   const collection = useSelector(state => state.item.collection);
   const fields = useSelector(state => state.item.fields);
+  const itemName = useSelector(state => state.item.itemName);
   const dispatch = useDispatch();
   const jsonData = JSON.parse(collection.settings);
 
-  console.log(fields);
+  console.log(fields, itemName);
 
   return (
     <Container>
@@ -20,7 +22,7 @@ const AddItem = () => {
             className='w-25' 
             type="text" 
             placeholder="Item name" 
-            onChange={(e) => dispatch(setFields({ name: 'itemName', value: e.target.value }))}
+            onChange={(e) => dispatch(setName(e.target.value))}
           />
         </Card.Header>
         <ListGroup variant="flush">
@@ -45,7 +47,7 @@ const AddItem = () => {
                 <Form.Control
                   key={ it.orders }
                   type={ it.type }
-                  placeholder={ `Enter ${it.name}` }
+                  placeholder={ `Enter ${joinValue(it.name)}` }
                   onChange={(e) => dispatch(setFields({ name: it.name, value: e.target.value }))}
                 />
               ))
@@ -56,7 +58,7 @@ const AddItem = () => {
           </ListGroup.Item>
         </ListGroup>
       </Card>
-      <Button className='mt-3 d-grid gap-2 col-2 mx-auto' variant="primary" size="lg" onClick={() => updateItem()}>
+      <Button className='mt-3 d-grid gap-2 col-2 mx-auto' variant="primary" size="lg" onClick={() => createItem({ collectionId: collection.id, nameItem: itemName, params: fields })}>
           Save 
       </Button>
     </Container>

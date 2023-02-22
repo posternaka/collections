@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Container, Row, Col, Card, Button, Form, ListGroup } from 'react-bootstrap';
+import { splitValue, joinValue } from '../helpers/index';
 
 import { createCollection } from '../rest/collection';
 import { theme, options } from '../types/theme';
@@ -16,7 +17,7 @@ const AddCollection = ({ userId }) => {
     const [modalType, setModalType] = useState('checkbox');
 
     const handleSetJson = () => {
-        setSettingsItem([...settingsItem, { name: modalName, type: modalType, orders: settingsItem.length + 1 }]);
+        setSettingsItem([...settingsItem, { name: splitValue(modalName), type: modalType, orders: settingsItem.length + 1 }]);
         setModalName('');
         setModalType('');
         setShow(false);
@@ -81,7 +82,7 @@ const AddCollection = ({ userId }) => {
                                     settingsItem.map((it, idx) => (
                                             <ListGroup.Item key={idx} className='d-flex gap-2'>
                                                 <Card.Title className='mb-0'>
-                                                    {it.name}
+                                                    {joinValue(it.name)}
                                                 </Card.Title>
                                                 <Card.Text className='opacity-50'>
                                                     (type: {it.type})
