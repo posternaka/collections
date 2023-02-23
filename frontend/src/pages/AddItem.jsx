@@ -26,7 +26,6 @@ const AddItem = () => {
 
   const saveItem = async () => {
     const item = await createItem({ collectionId: collection.id, nameItem: itemName, params: fields });
-    console.log(item);
     createTag({ collectionId: item.collectionId, itemId: item.id, tags });
     dispatch(setTagName([]));
   }

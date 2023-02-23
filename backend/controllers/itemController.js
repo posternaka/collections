@@ -47,7 +47,7 @@ class itemController {
         try {
             await Item.update(
                 {
-                    name: req.body.name,
+                    nameItem: req.body.name,
                     params: req.body.params
                 },
                 {
