@@ -1,31 +1,44 @@
 import { Card, ListGroup, Container, Form, Badge, Button } from 'react-bootstrap';
 import { joinValue } from '../../../helpers/index';
 
-const ReadItem = ({ item, sets }) => {
+import { deleteItem } from '../../../rest/item';
+
+const ReadItem = ({ item, sets, tags, setIsEdit }) => {
   const { id, nameItem, params } = item;
   const settings = JSON.parse(sets);
 
-  console.log(params, settings);
+  const tag = tags.length > 0 ? tags.find(it => +it.itemId === id)?.tags : '';
 
   return (
     <Container>
       <Card className='mt-3'>
         <Card.Header className='d-flex justify-content-between align-items-center'>
-          <span>№{id} {nameItem}</span>
+          <span className='fw-bold'>{nameItem}</span>
           <div className='d-flex gap-2'>
-              <Button variant="outline-warning" size="sm">
+              <Button variant="outline-warning" size="sm" onClick={() => setIsEdit(true)} >
                   Edit 
               </Button>
-              <Button variant="outline-danger" size="sm">
+              <Button variant="outline-danger" size="sm" onClick={() => deleteItem(id)}>
                   Delete
               </Button>
           </div>
         </Card.Header>
         <ListGroup variant="flush">
-          <ListGroup.Item className='d-flex flex-column gap-3'>
+          <ListGroup.Item className='d-flex flex-column gap-2'>
+            <div className='d-flex gap-1 align-items-center'>
+              {
+                tag.length > 0
+                  ? tag.map(it => (
+                    <Badge pill bg="primary">
+                      #{it}
+                    </Badge>
+                  ))
+                  : []
+              }
+            </div>
             {
-              settings.map((it, idx) => (
-                <div key={idx} className='d-flex gap-2'>
+              settings.map((it) => (
+                <div className='d-flex gap-2'>
                   <span className='opacity-75 fw-bold'>{joinValue(it.name)}: </span>
                   <span>{params[it.name]}</span>
                 </div>
@@ -33,25 +46,9 @@ const ReadItem = ({ item, sets }) => {
             }
           </ListGroup.Item>
         </ListGroup>
-        <div className='my-1 mx-1 d-flex gap-1 align-items-center'>
-          <Badge pill bg="primary">
-            #primary
-          </Badge>
-          <Badge pill bg="secondary">
-            #secondary
-          </Badge>
-          <Badge pill bg="success">
-            #success
-          </Badge>
-          <Badge pill bg="danger">
-            #danger
-          </Badge>
-        </div>
       </Card>
     </Container>
   )
 }
 
 export default ReadItem;
-
-{/* <span className='opacity-75 fw-bold'>Автор: </span><span>Д. Роулинг</span> */}

@@ -21,7 +21,8 @@ export const getItem = async (id) => {
 
 export const createItem = async (body) => {
     try {
-        await axios.post(`${itemUrl}`, body);
+        const item = await axios.post(`${itemUrl}`, body);
+        return item.data;
     } catch (error) {
         console.log(error);
     }

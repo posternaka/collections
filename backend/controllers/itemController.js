@@ -3,8 +3,8 @@ const Item = require('../models/item.js');
 class itemController {
     async createItem (req, res) {
         try {
-            await Item.create(req.body);
-            return res.status(201).json({ message: 'Item was successfully created.' })
+            const item = await Item.create(req.body);
+            return res.status(201).json(item)
         } catch (error) {
             console.log(error);
             res.status(400).json({ message: 'Failed to create item.'})

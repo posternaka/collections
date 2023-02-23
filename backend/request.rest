@@ -52,10 +52,10 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5000/item/7
+DELETE http://localhost:5000/item/9
 
 ###
-GET http://localhost:5000/item/all/18
+GET http://localhost:5000/item/all/17
 
 ###
 GET http://localhost:5000/item/2
@@ -78,11 +78,26 @@ Content-Type: application/json
 
 {
     "collectionId": "17",
-    "tags": ["success", "danger", "secondary"]
+    "itemId": "2",
+    "tags": ["secondary", "firstly", "success"]
 }
 
 ###
-GET http://localhost:5000/tag/17
+GET http://localhost:5000/tag/item/16
+
+###
+GET http://localhost:5000/tag/collection/17
 
 ###
 GET http://localhost:5000/tag
+
+###
+PATCH http://localhost:5000/tag/15
+Content-Type: application/json
+
+{
+    "tags": ["success"]
+}
+
+###
+DELETE http://localhost:5000/tag/4
