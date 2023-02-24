@@ -19,6 +19,15 @@ export const getItem = async (id) => {
     }
 }
 
+export const getFavorite = async (id) => {
+    try {
+        const item = await axios.get(`${itemUrl}/favorite/${id}`);
+        return item.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const createItem = async (body) => {
     try {
         const item = await axios.post(`${itemUrl}`, body);
@@ -30,9 +39,19 @@ export const createItem = async (body) => {
 
 export const updateItem = async (body) => {
     try {
-        return await axios.patch(`${itemUrl}/${body.id}`, {
+        return await axios.patch(`${itemUrl}/item/${body.id}`, {
             name: body.name,
             params: body.params,
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updateFavorite = async (id, body) => {
+    try {
+        return await axios.patch(`${itemUrl}/favorite/${id}`, {
+            favorite: body
         });
     } catch (error) {
         console.log(error);

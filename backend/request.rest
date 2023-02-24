@@ -46,7 +46,7 @@ POST http://localhost:5000/item
 Content-Type: application/json
 
 {
-    "collectionId": "18",
+    "collectionId": "17",
     "name": "rrr",
     "params": "[{rrr: '210', rrr: 'Red'}]"
 }
@@ -58,7 +58,10 @@ DELETE http://localhost:5000/item/9
 GET http://localhost:5000/item/all/17
 
 ###
-GET http://localhost:5000/item/2
+GET http://localhost:5000/item/1
+
+###
+GET http://localhost:5000/item/favorite/1
 
 
 ###
@@ -68,6 +71,14 @@ Content-Type: application/json
 {
     "name": "Bober",
     "params": "[{b: '1', a: 'r'}]"
+}
+
+###
+PATCH http://localhost:5000/item/favorite/1
+Content-Type: application/json
+
+{
+    "favorite": ["Nikita"]
 }
 
 

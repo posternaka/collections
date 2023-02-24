@@ -43,6 +43,23 @@ class itemController {
         }
     }
 
+    async getFavorite (req, res) {
+        try {
+            const item = await Item.findOne(
+                { 
+                    where: { 
+                        id: req.params.id
+                    },
+                    attributes: ['favorite']
+                }
+            );
+            return res.status(200).json(item);
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({ message: 'Failed to get item.'});
+        }
+    }
+
     async updateItem (req, res) {
         try {
             await Item.update(
@@ -63,6 +80,24 @@ class itemController {
         }
     }
 
+    async updateFavorite (req, res) {
+        try {
+            await Item.update(
+                {
+                    favorite: req.body.favorite,
+                },
+                {
+                    where: {
+                        id: req.params.id
+                    },
+                }
+            );
+            return res.status(200).json({ message: 'Item was successfully update.' })
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({ message: 'Failed to get item.'});
+        }
+    }
 
     async deleteItem (req, res) {
         try {

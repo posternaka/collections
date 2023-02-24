@@ -10,7 +10,7 @@ import { setTagsDB } from '../redux/tag/tagSlice';
 
 import ItemCard from '../components/cards/item/ItemCard';
 
-const Item = () => {
+const Item = ({ username }) => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const collection = useSelector(state => state.item.collection);
@@ -47,7 +47,7 @@ const Item = () => {
         </Link>
             {
                 items.map(it => (
-                    <ItemCard key={it.id} item={it} sets={collection.settings} tags={tagsDB} />
+                    <ItemCard key={it.id} username={username} item={it} sets={collection.settings} tags={tagsDB} />
                 ))
             }
         </Container>

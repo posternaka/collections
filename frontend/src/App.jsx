@@ -17,7 +17,7 @@ const App = () => {
             <Route path="signup" element={ <SignUp /> } />
             <Route element={ <PrivateRoutes token={ accessUser?.token } /> }>
               <Route path="/profile" element={ <Profile user={ accessUser } /> } />
-              <Route path="/collection/:id" element={ <Item />} />
+              <Route path="/collection/:id" element={ <Item username={accessUser?.username} />} />
               <Route path="/add_item" element={ <AddItem />} />
               <Route path="/add_collection" element={ <AddCollection userId={ accessUser?.id } />} />
               <Route path="/admin" element={ <Admin token={ accessUser?.token } /> } />

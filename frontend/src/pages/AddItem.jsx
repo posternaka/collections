@@ -66,9 +66,6 @@ const AddItem = () => {
               ))
             }
           </ListGroup.Item>
-          <ListGroup.Item className='d-flex flex-column gap-2'>
-            comments
-          </ListGroup.Item>
         </ListGroup>
       </Card>
       <Button className='mt-3 d-grid gap-2 col-2 mx-auto' variant="primary" size="lg" onClick={() => saveItem()}>
