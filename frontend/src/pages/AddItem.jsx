@@ -16,7 +16,8 @@ const AddItem = () => {
   const tags = useSelector(state => state.tag.tags);
   const dispatch = useDispatch();
   const jsonData = JSON.parse(collection.settings);
-
+  
+  console.log(collection);
   // console.log(tags);
 
   const addTag = () => {
@@ -45,7 +46,7 @@ const AddItem = () => {
           <ListGroup.Item className='d-flex flex-column gap-2'>
             <div className='d-flex gap-1'>
               {
-                tags.map(it => (
+                tags?.map(it => (
                   <Badge pill bg="primary">
                     #{it}
                   </Badge>

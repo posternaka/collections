@@ -3,8 +3,8 @@ const Comment = require('../models/comment.js');
 class commentController {
     async createComment (req, res) {
         try {
-            await Comment.create(req.body);
-            return res.status(201).json({ message: 'Comment was successfully create.' });
+            const comment = await Comment.create(req.body);
+            return res.status(201).json(comment);
         } catch (error) {
             console.log(error);
             res.status(400).json({ message: 'Failed to create comment.' });
@@ -13,14 +13,8 @@ class commentController {
 
     async getComment (req, res) {
         try {
-            const comment = await Comment.findAll(
-                {
-                    where: {
-                        itemId: req.params.id
-                    }
-                }
-            );
-            return res.status(200).json(comment);
+            const comments = await Comment.findAll();
+            return res.status(200).json(comments);
         } catch (error) {
             console.log(error);
             res.status(400).json({ message: 'Failed to get comment.' });

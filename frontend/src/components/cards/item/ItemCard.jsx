@@ -6,6 +6,7 @@ import ReadItem from './ReadItem';
 const ItemCard = ({ username, item, sets, tags }) => {
     const [isEdit, setIsEdit] = useState(false);
 
+
     return (
         <>
             { 

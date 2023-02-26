@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Card, ListGroup, Container, Form, Badge, Button } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { Card, ListGroup, Container, Form, Badge, Button, Toast } from 'react-bootstrap';
 import { joinValue } from '../../../helpers/index';
 
 import { deleteItem, getFavorite, updateFavorite } from '../../../rest/item';
@@ -10,6 +11,10 @@ const ReadItem = ({ username, item, sets, tags, setIsEdit }) => {
   const [isHeart, setIsHeart] = useState(favorite.includes(username));
 
   const tag = tags.length > 0 ? tags.find(it => +it.itemId === id)?.tags : '';
+
+  const comment = useSelector(state => state.comment);
+  const commentItem = comment.comments.filter(it => +it.itemId === id);
+  console.log(commentItem, id);
 
   const checkLike = async () => {
     const favorite = await getFavorite(id);
@@ -67,7 +72,23 @@ const ReadItem = ({ username, item, sets, tags, setIsEdit }) => {
             }
           </ListGroup.Item>
           <ListGroup.Item>
-            comments
+            {
+              commentItem &&
+                commentItem.map(it => (
+                  <>
+                    <Toast.Header closeButton={false}>
+                      <img
+                        src="https://via.placeholder.com/20/09f.png/000"
+                        className="rounded me-2"
+                        alt=""
+                      />
+                      <strong className="me-auto">Nikita</strong>
+                      <small>11 mins ago</small>
+                    </Toast.Header>
+                    <Toast.Body>I really like your idea. Sounds cool.</Toast.Body>
+                  </>
+                ))
+            }
           </ListGroup.Item>
         </ListGroup>
       </Card>

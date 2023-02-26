@@ -3,13 +3,11 @@ const db = require('../utils/database.js');
 
 const { DataTypes } = Sequelize;
 
-const Tag = db.define('tag', 
+const Tag = db.define("tag", 
     {
-        collectionId: {
-            type: DataTypes.STRING
-        },
         itemId: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull: false
         },
         tags: {
             type: DataTypes.JSON,

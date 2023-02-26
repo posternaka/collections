@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCollection, setItems } from '../redux/item/ItemSlice';
 import { setTagsDB } from '../redux/tag/tagSlice';
 
+import { getComments } from '../redux/comment/asyncAction';
+
 import ItemCard from '../components/cards/item/ItemCard';
 
 const Item = ({ username }) => {
@@ -17,11 +19,11 @@ const Item = ({ username }) => {
     const items = useSelector(state => state.item.items);
     const tagsDB = useSelector(state => state.tag.tagsDB);
 
-
     useEffect(() => {
         getDataCollection(id);
         getDataItems(id);
         getDataTagsDb(id);
+        dispatch(getComments());
     }, []);
 
     const getDataCollection = async (id) => {
@@ -38,6 +40,7 @@ const Item = ({ username }) => {
         const result = await getCollectionTags(id);
         dispatch(setTagsDB(result));
     };
+
 
     return (
         <Container>

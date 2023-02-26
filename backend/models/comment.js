@@ -7,7 +7,12 @@ const Comment = db.define('comment',
     {
         itemId: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+        },
+        username: {
+            type: DataTypes.STRING,
+            unique: true,
+            allowNull: false,
         },
         comment: {
             type: DataTypes.STRING,

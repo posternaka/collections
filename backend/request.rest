@@ -121,11 +121,12 @@ Content-Type: application/json
 
 {
     "itemId": "2",
+    "username": "Dasha",
     "comment": "Incredible"
 }
 
 ###
-GET http://localhost:5000/comment/2
+GET http://localhost:5000/comment
 
 ###
 DELETE http://localhost:5000/comment/6
