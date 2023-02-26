@@ -21,7 +21,7 @@ const CommentSlice = createSlice({
             state.comments.push(action.payload);
         },
         removeComment(state, action) {
-            state.comments.filter(it => it !== action.payload);
+            state.comments = state.comments.filter(it => it.id !== +action.payload);
         }
     },
     extraReducers: (builder) => {

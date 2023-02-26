@@ -9,7 +9,7 @@ export const addComment = createAsyncThunk(
         try {
             const response = await axios.post(`${commentUrl}`, body);
 
-            if(!response.ok) {
+            if(!response.statusText) {
                 throw new Error('Server Error (POST)');
             }
 
@@ -43,7 +43,7 @@ export const deleteComment = createAsyncThunk(
         try {
             const comments = await axios.delete(`${commentUrl}/${id}`);
 
-            if(!comments.ok) {
+            if(!comments.statusText) {
                 throw new Error('Server Error (DELETE)');
             }
 

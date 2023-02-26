@@ -1,13 +1,17 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+
 import { Container, Col, Row } from 'react-bootstrap';
 
 const Home = ({ user }) => {
   const dispatch = useDispatch();
+  const comment = useSelector(state => state);
+
+  console.log(comment);
 
   useEffect(() => {
-  }, [])
+  }, []);
 
   return (
     <Container>
