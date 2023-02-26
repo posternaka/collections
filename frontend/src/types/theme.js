@@ -1,4 +1,4 @@
-export const theme = ['Book', 'Movie', 'Game', 'Music', 'Car', 'Alcohol'];
+export const theme = ['Book', 'Movie', 'Game', 'Music', 'Car', 'Alcohol', 'Sport'];
 
 export const options = ['number', 'text', 'markdown', 'date', 'boolean'];
 

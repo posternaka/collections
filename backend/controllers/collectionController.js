@@ -1,7 +1,7 @@
 const Collection = require('../models/collection.js');
 
 class collectionController {
-    async getCollections (req, res) {
+    async getUserCollections (req, res) {
         try {
             const collections = await Collection.findAll(
                 { 
@@ -19,17 +19,10 @@ class collectionController {
         }
     };
 
-    async getCollection (req, res) {
+    async getAllCollections (req, res) {
         try {
-            const collection = await Collection.findOne(
-                { 
-                    where: { 
-                        id: req.params.id
-                    },
-                    attributes: ['id', 'settings']
-                }
-            );
-            res.status(200).json(collection);
+            const collections = await Collection.findAll();
+            res.status(200).json(collections);
         } catch (error) {
             console.log(error);
             res.status(400).json({ message: "Failed to get collection." });
@@ -70,14 +63,14 @@ class collectionController {
 
     async deleteCollection (req, res) {
         try {
-            await Collection.destroy(
+            const collection = await Collection.destroy(
                 {
                     where: {
                         id: req.params.id
                     }
                 }
             )
-            return res.status(200).json({ message: "Collection has been deleted."})
+            return res.status(200).json(collection);
         } catch (error) {
             console.log(error);
             res.status(400).json({ message: "Failed to delete collection." });
