@@ -15,11 +15,6 @@ const Item = db.define('item',
         params: {
             type: DataTypes.JSON,
             allowNull: false
-        },
-        favorite: {
-            type: DataTypes.JSON,
-            defaultValue: [],
-            allowNull: false
         }
     }
 );

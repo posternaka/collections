@@ -43,3 +43,33 @@ export const updateTag = async (id, body) => {
         console.log(error);
     }
 }
+
+
+
+// const dispatch = useDispatch();
+// const tag = useSelector(state => state.tag);
+
+// console.log(tag);
+
+// useEffect(()=> {
+//   dispatch(getItemTags('1'));
+//   dispatch(getAllTags());
+// }, [])
+
+
+// useEffect(() => {
+// }, []);
+
+// return (
+//   <Container>
+//     <Row className='mt-5'>
+//       <Col sm={2}>Filter</Col>
+//       <Col sm={10}>
+//         <h2>Hello, {user?.username} </h2>
+//         <button onClick={() => dispatch(createTags('uyiuoip'))}>add tag in redux</button>
+//         <button onClick={() => dispatch(addTag({itemId: '2', tags: tag.createTag}))}>create tag</button>
+//         <button onClick={() => dispatch(updateTag({ id: '1', body: ["adsferg", "erernth", "xbvmnb"]}))}>update tag</button>
+//       </Col>
+//     </Row>
+//   </Container>
+// );

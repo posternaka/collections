@@ -29,7 +29,7 @@ class itemController {
 
     async getItem (req, res) {
         try {
-            const item = await Item.findAll(
+            const item = await Item.findOne(
                 { 
                     where: { 
                         id: req.params.id
@@ -64,7 +64,7 @@ class itemController {
         try {
             await Item.update(
                 {
-                    nameItem: req.body.name,
+                    nameItem: req.body.nameItem,
                     params: req.body.params
                 },
                 {

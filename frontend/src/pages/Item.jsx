@@ -5,8 +5,8 @@ import { getCollection } from '../rest/collection';
 import { getItems } from '../rest/item';
 import { getCollectionTags } from '../rest/tag';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCollection, setItems } from '../redux/item/ItemSlice';
-import { setTagsDB } from '../redux/tag/tagSlice';
+// import { setCollection, setItems } from '../redux/item/ItemSlice';
+// import { setTagsDB } from '../redux/tag/tagSlice';
 
 import { getComments } from '../redux/comment/asyncAction';
 
@@ -28,17 +28,17 @@ const Item = ({ username }) => {
 
     const getDataCollection = async (id) => {
         const result = await getCollection(id);
-        dispatch(setCollection(result));
+        // dispatch(setCollection(result));
     };
 
     const getDataItems = async (id) => {
         const result = await getItems(id);
-        dispatch(setItems(result));
+        // dispatch(setItems(result));
     };
     
     const getDataTagsDb = async (id) => {
         const result = await getCollectionTags(id);
-        dispatch(setTagsDB(result));
+        // dispatch(setTagsDB(result));
     };
 
 

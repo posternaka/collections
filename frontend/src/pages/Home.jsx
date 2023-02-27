@@ -6,9 +6,13 @@ import { Container, Col, Row } from 'react-bootstrap';
 
 const Home = ({ user }) => {
   const dispatch = useDispatch();
-  const comment = useSelector(state => state);
+  const item = useSelector(state => state.item);
 
-  console.log(comment);
+  console.log(item);
+
+  useEffect(()=> {
+  }, [])
+
 
   useEffect(() => {
   }, []);

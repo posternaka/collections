@@ -11,6 +11,7 @@ const Tag = db.define("tag",
         },
         tags: {
             type: DataTypes.JSON,
+            defaultValue: [],
             allowNull: false
         }
     }

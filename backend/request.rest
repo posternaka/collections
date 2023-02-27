@@ -11,6 +11,14 @@ Content-Type: application/json
 }
 
 ###
+PATCH  http://localhost:5000/users/1
+Content-Type: application/json
+
+{
+    "role": "admin",
+}
+
+###
 POST http://localhost:5000/auth/signin
 Content-Type: application/json
 
@@ -111,7 +119,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5000/tag/4
+DELETE http://localhost:5000/tag/2
 
 
 // COMMENT

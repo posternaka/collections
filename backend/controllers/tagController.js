@@ -3,8 +3,8 @@ const Tag = require('../models/tag.js');
 class tagController {
     async createTag (req, res) {
         try {
-            await Tag.create(req.body);
-            return res.status(201).json({ message: 'Tag was successfully added.'});
+            const tag = await Tag.create(req.body);
+            return res.status(201).json(tag);
         } catch (error) {
             console.log(error);
             res.status(400).json({ message: 'Failed to add tag.'});
@@ -17,30 +17,13 @@ class tagController {
                 {
                     where: {
                         itemId: req.params.id
-                    },
-                    attributes: ['tags']
-                },
-            );
-            return res.status(200).json(result);
-        } catch (error) {
-            console.log(error);
-            res.status(400).json({ message: 'Failed to get tag.'});
-        }
-    }
-
-    async getCollectionTags (req, res) {
-        try {
-            const result = await Tag.findAll(
-                {
-                    where: {
-                        collectionId: req.params.id
                     }
                 }
             );
             return res.status(200).json(result);
         } catch (error) {
             console.log(error);
-            res.status(400).json({ message: 'Failed to get tag.'});
+            res.status(400).json({ message: 'Failed to get tags.'});
         }
     }
 
@@ -62,7 +45,7 @@ class tagController {
         try {
             const result = await Tag.update(
                 {
-                    tags: req.body.tags
+                    tags: req.body
                 },
                 {
                     where: {
