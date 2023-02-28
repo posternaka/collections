@@ -1,8 +1,13 @@
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { deleteCollection } from '../../../redux/collection/asyncAction';
+
 import { Card, Button } from 'react-bootstrap';
-import { deleteCollection } from '../../../rest/collection';
 
 const ViewCard = ({ collection, setIsEdit }) => {
+    const dispatch = useDispatch();
+
     return (
         <>
             <Card.Img variant="top" src="https://via.placeholder.com/110x100/09f.png/fff" />
@@ -20,7 +25,7 @@ const ViewCard = ({ collection, setIsEdit }) => {
                     <Button variant="outline-warning" size="sm" onClick={() => setIsEdit(true)}>
                         Edit 
                     </Button>
-                    <Button variant="outline-danger" size="sm" onClick={() => deleteCollection(collection.id)}>
+                    <Button variant="outline-danger" size="sm" onClick={() => dispatch(deleteCollection(collection.id))}>
                         Delete
                     </Button>
                 </div>

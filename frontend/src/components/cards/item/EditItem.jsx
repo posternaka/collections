@@ -1,93 +1,93 @@
-// import { useState, useEffect } from 'react';
-// import { Card, ListGroup, Container, Form, Badge, Button } from 'react-bootstrap';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { updateItem } from '../../../rest/item';
-// import { getItemTags, updateTag } from '../../../rest/tag';
-// import { setTag } from '../../../redux/tag/tagSlice';
-// import { setFields } from '../../../redux/item/ItemSlice';
+import { useState } from 'react';
+import { Card, ListGroup, Container, Form, Button, Badge } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { setOptions } from '../../../redux/item/itemSlice';
+import { joinValue } from '../../../helpers/index';
 
-// const EditItem = ({ item, sets, tags, setIsEdit }) => {
-//   const { id, nameItem, params } = item;
-//   const jsonSettings = JSON.parse(sets)
-//   const dispatch = useDispatch();
-//   const tag = useSelector(state => state.tag.tag);
-//   const fields = useSelector(state => state.item.fields);
-//   const [newName, setNewName] = useState(nameItem);
-//   const [nameTag, setNameTag] = useState('');
+import { updateItem } from '../../../redux/item/asyncAction'; 
+import { addTag } from '../../../redux/tag/asyncAction';
 
+const EditItem = ({ item, setIsEdit }) => {
+    const dispatch = useDispatch();
+    const [newName, setNewName] = useState(item.nameItem);
+    
+    const collection = useSelector(state => state.collection.collection);
+    const options = useSelector(state => state.item.options);
+    const tag = useSelector(state => state.tag.itemTags);
+    const [newTag, setNewTag] = useState('');
 
-//   console.log(fields);
+    const saveItemChanges = () => {
+        dispatch(updateItem({ id: item.id, body: { nameItem: newName, params: options }}));
+        dispatch(addTag({ id: item.id, body: [...tag?.tags, newTag]}));
+        setNewTag('');
+        setIsEdit(false);
+    }
 
-//   useEffect(() => {
-//     getDataItemTags(id);
-//   }, [])
+    const updateTags = () => {
+        dispatch(addTag({ id: item.id, body: [...tag?.tags, newTag]}));
+        setNewTag('');
+    }
 
-//   const getDataItemTags = async (id) => {
-//     const tag = await getItemTags(id);
-//     dispatch(setTag(tag.tags));
-//   }
+    return (
+        <Container>
+            <Card className='mt-3'>
+            <Card.Header className='d-flex justify-content-between align-items-center'>
+                <Form.Control
+                    className='w-25'
+                    type="text"
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                />
+                <div className='d-flex gap-2'>
+                    <Button 
+                        variant="outline-warning" 
+                        size="sm" 
+                        onClick={() => saveItemChanges()} 
+                    >
+                        Save 
+                    </Button>
+                </div>
+            </Card.Header>
+            <ListGroup variant="flush">
+                <ListGroup.Item className='d-flex flex-column gap-2'>
+                    <div className='d-flex gap-1 align-items-center'>
+                        {
+                            tag?.tags && 
+                                <div className='d-flex gap-1 align-items-center'>
+                                    {
+                                        tag.tags?.map(it => (
+                                            <Badge pill bg="primary">
+                                                #{it}
+                                            </Badge>
+                                        ))
+                                    }
+                                </div>
+                        }
+                    </div>
+                    <div className='d-flex gap-2'>
+                        <Form.Control className='w-25' type="text" placeholder="add tag" value={newTag} onChange={(e) => setNewTag(e.target.value) } />
+                        <Button onClick={() => updateTags()}>+</Button>
+                    </div>
+                        {
+                            collection.settings && collection.settings.map((param, idx) => (
+                                <div key={idx} className='d-flex gap-2 align-items-center'>
+                                    <span className='opacity-75 fw-bold'>{ joinValue(param.name) }: </span>
+                                    <Form.Control 
+                                        className='w-25' 
+                                        type={ param.type } 
+                                        placeholder={`${ joinValue(param.name) }`} 
+                                        defaultValue={item.params[param.name]}
+                                        onChange={(e) => dispatch(setOptions({ nameOption: param.name, valueOption: e.target.value }))} 
+                                    />
+                                </div>
+                            ))
+                        }
+                </ListGroup.Item>
+            </ListGroup>
+            </Card>
+        </Container>
+    )
+}
 
-//   const updateTagDB = async () => {
-//     await updateTag(id, { tags: [...tag, nameTag]});
-//     setNameTag('');
-//   }
-
-
-//   const handleUpdateItem = async () => {
-//     await updateItem({ id, name: newName, params: fields })
-//   }
-
-
-//   return (
-//     <Container>
-//       <Card className='mt-3'>
-//         <Card.Header className='d-flex justify-content-between align-items-center'>
-//           <Form.Control
-//               className='w-25'
-//               type="text"
-//               value={newName}
-//               onChange={(e) => setNewName(e.target.value)}
-//           />
-//           <div className='d-flex gap-2'>
-//               <Button variant="outline-warning" size="sm" onClick={() => handleUpdateItem()} >
-//                   Save 
-//               </Button>
-//           </div>
-//         </Card.Header>
-//         <ListGroup variant="flush">
-//           <ListGroup.Item className='d-flex flex-column gap-2'>
-//             <div className='d-flex gap-1 align-items-center'>
-//               {
-//                 tag.map(it => (
-//                   <Badge pill bg="primary">
-//                     #{it}
-//                   </Badge>
-//                 ))
-//               }
-//             </div>
-//             <div className='d-flex gap-2'>
-//               <Form.Control className='w-25' type="text" placeholder="add tag" value={nameTag} onChange={(e) => setNameTag(e.target.value)} />
-//               <Button onClick={() => updateTagDB()}>+</Button>
-//             </div>
-//                 {
-//                   jsonSettings.map(it => (
-//                     <div className='d-flex gap-2 align-items-center'>
-//                       <span className='opacity-75 fw-bold'>{ it.name }: </span>
-//                       <Form.Control 
-//                         className='w-25' 
-//                         type={ it.type } 
-//                         placeholder={`add ${ it.name }`} 
-//                         onChange={(e) => dispatch(setFields({ name: it.name, value: e.target.value }))} 
-//                       />
-//                     </div>
-//                   ))
-//                 }
-//           </ListGroup.Item>
-//         </ListGroup>
-//       </Card>
-//     </Container>
-//   )
-// }
-
-// export default EditItem
+export default EditItem
 

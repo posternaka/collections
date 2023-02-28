@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { addComment, getComments, deleteComment } from './asyncAction';
-import { STATUS } from '../types/types';
+import { STATUS } from '../types/status';
 
 const initialState = {
     comments: [],

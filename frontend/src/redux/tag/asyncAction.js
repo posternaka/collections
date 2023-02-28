@@ -1,19 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { updateItemTags, addNewTags } from './tagSlice';
+import { addNewTags } from './tagSlice';
 import { tagUrl } from '../../types/url';
 
-export const addTag = createAsyncThunk(
-    'tag/addTag',
-    async (body, { rejectWithValue, dispatch }) => {
+export const createTag = createAsyncThunk(
+    'tag/createTag',
+    async (body, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${tagUrl}`, body);
+            const response = await axios.post(tagUrl, body);
 
             if(!response.statusText) {
                 throw new Error('Server Error (POST)');
             }
-
-            dispatch(addNewTags(body));
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -41,7 +39,7 @@ export const getAllTags = createAsyncThunk(
     'tag/getAllTags',
     async (_, { rejectWithValue }) => {
         try {
-            const allTags = await axios.get(`${tagUrl}`);
+            const allTags = await axios.get(tagUrl);
 
             if(!allTags.statusText) {
                 throw new Error('Server Error (GET ALL TAGS)');
@@ -54,10 +52,9 @@ export const getAllTags = createAsyncThunk(
     }
 )
     
-export const updateTag = createAsyncThunk(
+export const addTag = createAsyncThunk(
     'tag/updateTag',
     async (params, { rejectWithValue, dispatch }) => {
-        console.log(params.body);
         try {
             const tags = await axios.patch(`${tagUrl}/${params.id}`, params.body);
 
@@ -65,7 +62,7 @@ export const updateTag = createAsyncThunk(
                 throw new Error('Server Error (UPDATE ITEM TAGS)');
             }
 
-            dispatch(updateItemTags(params));
+            dispatch(addNewTags(params.body));
         } catch (error) {
             return rejectWithValue(error.message);
         }

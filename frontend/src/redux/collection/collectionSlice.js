@@ -1,16 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addCollection, getUserCollections, getAllCollections, updateCollection, deleteCollection } from './asyncAction';
-import { STATUS } from '../types/types';
+import { addCollection, getUserCollections, getAllCollections, getCollection, updateCollection, deleteCollection } from './asyncAction';
+import { STATUS } from '../types/status';
+import { THEMES, TYPES } from '../../types/theme';
 
 const initialState = {
     updateCollection: {
-        name: '',
-        theme: '',
+        collectionName: '',
+        theme: THEMES[0],
         description: '',
+        optionName: '',
+        optionType: TYPES[0],
         settingsCollection: [],
     },
     userCollections: [],
     allCollections: [],
+    collection: {},
     status: STATUS.LOADING,
     error: null
 }
@@ -24,6 +28,27 @@ const collectionSlice = createSlice({
     name: 'collection',
     initialState,
     reducers: {
+        setCollectionName (state, action) {
+            state.updateCollection.collectionName = action.payload;
+        },
+        setCollectionTheme (state, action) {
+            state.updateCollection.theme = action.payload;
+        },
+        setCollectionDesc (state, action) {
+            state.updateCollection.description = action.payload;
+        },
+        setCollectionSettings (state, action) {
+            state.updateCollection.settingsCollection.push(action.payload);
+        },
+        resetCollectionSettings (state) {
+            state.updateCollection.settingsCollection = [];
+        },
+        setOptionName (state, action) {
+            state.updateCollection.optionName = action.payload;
+        },
+        setOptionType (state, action) {
+            state.updateCollection.optionType = action.payload;
+        },
         addNewCollection (state, action) {
             state.userCollections.push(action.payload);
         },
@@ -40,6 +65,14 @@ const collectionSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(getCollection.pending, (state) => {
+                state.status = STATUS.LOADING;
+                state.error = null;
+            })
+            .addCase(getCollection.fulfilled, (state, action) => {
+                state.status = STATUS.SUCCESS;
+                state.collection = action.payload;
+            })
             .addCase(getUserCollections.pending, (state) => {
                 state.status = STATUS.LOADING;
                 state.error = null;
@@ -65,4 +98,4 @@ const collectionSlice = createSlice({
 })
 
 export default collectionSlice.reducer;
-export const { addNewCollection, updateUserCollection, removeCollection } = collectionSlice.actions;
+export const { setCollectionName, setCollectionTheme, setCollectionDesc, setCollectionSettings, resetCollectionSettings, setOptionName, setOptionType, addNewCollection, updateUserCollection, removeCollection } = collectionSlice.actions;

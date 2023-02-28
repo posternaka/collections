@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { Card, Form, Button } from 'react-bootstrap';
-import { updateCollection } from '../../../rest/collection';
+import { useDispatch } from 'react-redux';
+import { updateCollection } from '../../../redux/collection/asyncAction';
 
-import { theme, options } from '../../../types/theme'; 
+import { Card, Form, Button } from 'react-bootstrap';
+
+import { THEMES, options } from '../../../types/theme'; 
 
 const ViewCard = ({ collection, setIsEdit }) => {
-    const jsonData = JSON.parse(collection.settings);
+    const dispatch = useDispatch();
 
     const [newName, setNewName] = useState(collection.collectionName);
     const [newTheme, setNewTheme] = useState(collection.theme);
     const [newDesc, setNewDesc] = useState(collection.description);
-    const [newSettings, setNewSettings] = useState(jsonData);
+    const [newSettings, setNewSettings] = useState(collection.settings);
 
     const handleNewSettingsName = (id, name) => {
         setNewSettings(prevState => 
@@ -22,19 +24,9 @@ const ViewCard = ({ collection, setIsEdit }) => {
         )
     }
 
-    // const handleNewSettingsType = (id, type) => {
-    //     setNewSettings(prevState => 
-    //       prevState.map(item => 
-    //         item.orders === id 
-    //           ? { ...item, type }
-    //           : item
-    //       )
-    //     )
-    // }
-
     const updateSettings = () => {
         setIsEdit(false);
-        updateCollection({ id: collection.id, newName, newTheme, newDesc, newSettings });
+        dispatch(updateCollection({ id: collection.id, body: { collectionName: newName, theme: newTheme, description: newDesc, settings: newSettings }}));
     }
 
     return (
@@ -47,9 +39,13 @@ const ViewCard = ({ collection, setIsEdit }) => {
                         value={newName} 
                         onChange={(e) => setNewName(e.target.value)} 
                     />
-                    <Form.Select aria-label={collection.theme} defaultValue={collection.theme} onChange={(e) => setNewTheme(e.target.value)}>
+                    <Form.Select 
+                        aria-label={collection.theme} 
+                        value={newTheme} 
+                        onChange={(e) => setNewTheme(e.target.value)}
+                    >
                         {
-                            theme.map((it, idx) => (
+                            THEMES.map((it, idx) => (
                                 <option key={idx} value={it}>{it}</option>
                             ))
                         }
@@ -63,7 +59,7 @@ const ViewCard = ({ collection, setIsEdit }) => {
                 <span>Settings:</span>
                 <Button variant="light">+</Button>
                 {
-                    jsonData.map(it => (
+                    collection.settings.map(it => (
                         <div key={it.orders} className='d-flex justify-content-between align-items-center gap-1'>
                             <Form.Control 
                                 className="w-50"
@@ -95,4 +91,4 @@ const ViewCard = ({ collection, setIsEdit }) => {
     )
 }
 
-export default ViewCard
+export default ViewCard;

@@ -1,21 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Container, Row } from 'react-bootstrap';
-import { getCollections } from '../rest/collection';
+import { getUserCollections } from '../redux/collection/asyncAction';
 
+import { Container, Row } from 'react-bootstrap';
 import CollectionCard from '../components/cards/collection/CollectionCard';
 
 const Profile = ({ user }) => {
-    const [collections, setCollections] = useState([]);
+    const dispatch = useDispatch();
+    const collections = useSelector(state => state.collection.userCollections);
 
     useEffect(() => {
-        dataCollections();
+        dispatch(getUserCollections(user.id));
     }, []);
-
-    const dataCollections = async () => {
-        const result = await getCollections(user.id);
-        setCollections(result);
-    }
 
     return (
         <Container>
@@ -25,8 +22,8 @@ const Profile = ({ user }) => {
                     <p>add new collection</p>
                 </Link>
                 {
-                    collections.map((it, idx) => (
-                        <CollectionCard key={it.id} collection={it} />
+                    collections.map((collection) => (
+                        <CollectionCard key={collection.id} collection={collection} />
                     ))
                 }
             </Row>

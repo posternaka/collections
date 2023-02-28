@@ -20,17 +20,34 @@ export const addItem = createAsyncThunk(
     }
 )
 
-export const getItems = createAsyncThunk(
-    'item/getItems',
+export const getAllItems = createAsyncThunk(
+    'item/getAllItems',
     async (id, { rejectWithValue }) => {
         try {
-            const items = await axios.get(`${itemUrl}/all/${id}`);
+            const allItems = await axios.get(`${itemUrl}`);
 
-            if(!items.statusText) {
-                throw new Error('Server Error (GET ITEMS)');
+            if(!allItems.statusText) {
+                throw new Error('Server Error (GET ALL ITEMS)');
             }
 
-            return items.data;
+            return allItems.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+)
+
+export const getCollectionItems = createAsyncThunk(
+    'item/getCollectionItems',
+    async (id, { rejectWithValue }) => {
+        try {
+            const collectionItems = await axios.get(`${itemUrl}/collection/${id}`);
+
+            if(!collectionItems.statusText) {
+                throw new Error('Server Error (GET COLLECTION ITEMS)');
+            }
+
+            return collectionItems.data;
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -64,7 +81,7 @@ export const updateItem = createAsyncThunk(
                 throw new Error('Server Error (PATCH ITEM)');
             }
 
-            dispatch(updateCollectionItem(params.body));
+            dispatch(updateCollectionItem(params));
         } catch (error) {
             return rejectWithValue(error.message);
         }

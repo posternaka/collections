@@ -1,43 +1,61 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Button, Form, ListGroup } from 'react-bootstrap';
 import { splitValue, joinValue } from '../helpers/index';
 
-import { createCollection } from '../rest/collection';
-import { theme, options } from '../types/theme';
+import { useDispatch, useSelector } from 'react-redux';
+import { 
+    setCollectionName, 
+    setCollectionTheme, 
+    setCollectionDesc, 
+    setCollectionSettings, 
+    resetCollectionSettings,
+    setOptionName, 
+    setOptionType 
+} from '../redux/collection/collectionSlice';
+import { addCollection } from '../redux/collection/asyncAction';
+
+import { THEMES, TYPES } from '../types/theme';
 
 import ModalWindow from '../components/UI/modal/ModalWindow';
 
 const AddCollection = ({ userId }) => {
+    const dispatch = useDispatch();
+    const collectionValues = useSelector(state => state.collection.updateCollection);
+    const navigate = useNavigate();
+
     const [show, setShow] = useState(false);
-    const [settingsItem, setSettingsItem] = useState([]);
-    const [collectionName, setCollectionName] = useState('');
-    const [descCollection, setDescCollection] = useState('');
-    const [themeCollection, setThemeCollection] = useState('');
-    const [modalName, setModalName] = useState('');
-    const [modalType, setModalType] = useState('checkbox');
 
     const handleSetJson = () => {
-        setSettingsItem([...settingsItem, { name: splitValue(modalName), type: modalType, orders: settingsItem.length + 1 }]);
-        setModalName('');
-        setModalType('');
+        dispatch(setCollectionSettings(
+            { 
+                name: splitValue(collectionValues.optionName), 
+                type: collectionValues.optionType, 
+                orders: collectionValues.settingsCollection.length + 1,
+            }
+        ));
+        dispatch(setOptionName(''));
+        dispatch(setOptionType(TYPES[0]));
         setShow(false);
-    } 
+    }
 
     const saveSetting = () => {
-        const dataCollection = {
+        const newCollection = {
             idUser : userId,
             image: "img",
-            collectionName,
-            theme : themeCollection,
-            description : descCollection,
-            settings : settingsItem
-        }
+            collectionName: collectionValues.collectionName,
+            theme : collectionValues.theme,
+            description : collectionValues.description,
+            settings : collectionValues.settingsCollection
+        };
 
-        createCollection(dataCollection);
+        dispatch(addCollection(newCollection));
+        navigate('/profile');
 
-        setCollectionName('');
-        setThemeCollection('');
-        setDescCollection('');
+        dispatch(setCollectionName(''));
+        dispatch(setCollectionTheme(THEMES[0]));
+        dispatch(setCollectionDesc(''));
+        dispatch(resetCollectionSettings());
     }
 
     return (
@@ -51,25 +69,48 @@ const AddCollection = ({ userId }) => {
                                 <Form.Control type="file" size="lg" />
                             </Form.Group>
                             <div className='d-flex justify-content-between gap-5'>
-                                <Form.Control type="text" placeholder="Collection Name" onChange={(e) => setCollectionName(e.target.value)}/>
-                                <Form.Select aria-label="Default select example" onChange={(e) => setThemeCollection(e.target.value)}>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Collection Name"
+                                    value={collectionValues.collectionName}
+                                    onChange={(e) => dispatch(setCollectionName(e.target.value))}
+                                />
+                                <Form.Select 
+                                    aria-label="Default select example" 
+                                    value={collectionValues.theme}
+                                    onChange={ (e) => dispatch(setCollectionTheme(e.target.value)) }
+                                >
                                     {
-                                        theme.map((it, idx) => (
+                                        THEMES.map((it, idx) => (
                                             <option key={idx} value={it}>{it}</option>
                                         ))
                                     }
                                 </Form.Select>
                             </div>
-                            <Form.Control as="textarea" rows={3} onChange={(e) => setDescCollection(e.target.value)} />
+                            <Form.Control 
+                                as="textarea" 
+                                rows={3} 
+                                value={collectionValues.description}
+                                onChange={ (e) => dispatch(setCollectionDesc(e.target.value)) } 
+                            />
                             <span>Setting items in your collection:</span>
                             <div className="d-grid gap-2">
                                 <Button variant="light" onClick={() => setShow(true)}>+</Button>
                                 <ModalWindow show={show} setShow={setShow} handleSetJson={handleSetJson}>
                                     <div className='d-flex gap-5'>
-                                        <Form.Control type="text" placeholder="Name" value={modalName} onChange={(e) => setModalName(e.target.value)} />
-                                        <Form.Select aria-label="Default select example" onClick={(e) => setModalType(e.target.value)}>
+                                        <Form.Control 
+                                            type="text"
+                                            placeholder="Name"
+                                            value={collectionValues.optionName}
+                                            onChange={ (e) => dispatch(setOptionName(e.target.value)) }
+                                        />
+                                        <Form.Select 
+                                            aria-label="Default select example"
+                                            value={collectionValues.optionType}
+                                            onChange={ (e) => dispatch(setOptionType(e.target.value)) }
+                                        >
                                             {
-                                                options.map((it, idx) => (
+                                                TYPES.map((it, idx) => (
                                                     <option key={idx} value={it}>{it}</option>
                                                 ))
                                             }
@@ -79,7 +120,7 @@ const AddCollection = ({ userId }) => {
                             </div>
                             <ListGroup variant="flush">
                                 {
-                                    settingsItem.map((it, idx) => (
+                                    collectionValues.settingsCollection.map((it, idx) => (
                                             <ListGroup.Item key={idx} className='d-flex gap-2'>
                                                 <Card.Title className='mb-0'>
                                                     {joinValue(it.name)}

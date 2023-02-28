@@ -3,16 +3,16 @@ const Collection = require('../models/collection.js');
 class collectionController {
     async getUserCollections (req, res) {
         try {
-            const collections = await Collection.findAll(
+            const userCollections = await Collection.findAll(
                 { 
                     where: { 
                         idUser: req.params.id
                     },
                     raw: true, 
-                    nest:true
+                    nest: true
                 }
             );
-            res.status(200).json(collections);
+            res.status(200).json(userCollections);
         } catch (error) {
             console.log(error);
             res.status(400).json({ message: "Failed to get collection." });
@@ -23,6 +23,22 @@ class collectionController {
         try {
             const collections = await Collection.findAll();
             res.status(200).json(collections);
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({ message: "Failed to get collection." });
+        }
+    };
+
+    async getCollection (req, res) {
+        try {
+            const collection = await Collection.findOne(
+                { 
+                    where: { 
+                        id: req.params.id
+                    },
+                }
+            );
+            res.status(200).json(collection);
         } catch (error) {
             console.log(error);
             res.status(400).json({ message: "Failed to get collection." });

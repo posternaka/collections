@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addTag, getItemTags, getAllTags, updateTag } from './asyncAction';
-import { STATUS } from '../types/types';
+import { createTag, addTag, getItemTags, getAllTags } from './asyncAction';
+import { STATUS } from '../types/status';
 
 const initialState = {
-    createTag: [],
     itemTags: {},
     allTags: []
 };
@@ -18,16 +17,8 @@ const tagSlice = createSlice({
     initialState,
     reducers: {
         addNewTags(state, action) {
-            state.itemTags = action.payload;
-            state.allTags.push({ tags: action.payload.tags });
+            state.itemTags.tags = action.payload;
         },
-        createTags(state, action) {
-            state.createTag.push(action.payload);
-        },
-        updateItemTags(state, action) {
-            state.itemTags.tags = action.payload.body;
-            state.allTags.push({ tags: action.payload.body });
-        }
     },
     extraReducers: (builder) => {
         builder
@@ -50,9 +41,9 @@ const tagSlice = createSlice({
             .addCase(getItemTags.rejected, setError)
             .addCase(getAllTags.rejected, setError)
             .addCase(addTag.rejected, setError)
-            .addCase(updateTag.rejected, setError)
+            .addCase(createTag.rejected, setError)
     },
 })
 
 export default tagSlice.reducer;
-export const { createTags, updateItemTags, addNewTags } = tagSlice.actions;
+export const { addNewTags } = tagSlice.actions;

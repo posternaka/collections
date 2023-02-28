@@ -1,34 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { setName, setFields } from '../redux/item/ItemSlice';
-// import { setTagName } from '../redux/tag/tagSlice';
-import { Card, ListGroup, Container, Form, Badge, Button } from 'react-bootstrap';
-import { createItem } from '../rest/item';
-import { createTag } from '../rest/tag';
+import { useNavigate } from 'react-router-dom';
+import { setOptions } from '../redux/item/itemSlice';
+import { Card, ListGroup, Container, Form, Button, Badge } from 'react-bootstrap';
 import { joinValue } from '../helpers/index';
 
+import { createTag } from '../redux/tag/asyncAction';
+
+import { addItem } from '../redux/item/asyncAction';
+
 const AddItem = () => {
-  const [nameTag, setNameTag] = useState('');
-
-  const collection = useSelector(state => state.item.collection);
-  const fields = useSelector(state => state.item.fields);
-  const itemName = useSelector(state => state.item.itemName);
-  const tags = useSelector(state => state.tag.tags);
   const dispatch = useDispatch();
-  const jsonData = JSON.parse(collection.settings);
-  
-  console.log(collection);
-  // console.log(tags);
+  const navigate = useNavigate();
+  const [itemName, setItemName] = useState('');
 
-  const addTag = () => {
-    // dispatch(setTagName([...new Set([...tags, nameTag])]));
-    setNameTag('');
-  }
+  const [itemTags, setItemTags] = useState('');
+  const [tags, setTags] = useState([]);
 
-  const saveItem = async () => {
-    const item = await createItem({ collectionId: collection.id, nameItem: itemName, params: fields });
-    createTag({ collectionId: item.collectionId, itemId: item.id, tags });
-    // dispatch(setTagName([]));
+  const options = useSelector(state => state.item.options);
+  const collection = useSelector(state => state.collection.collection);
+  const newItemId = useSelector(state => state.item.newItemId);
+
+  // console.log(newItemId);
+
+  const saveItem = () => {
+    dispatch(addItem({ collectionId: collection.id, nameItem: itemName, params: options }));
+    dispatch(createTag({ itemId: newItemId, tags }));
+    navigate(`/collection/${collection.id}`);
   }
 
   return (
@@ -39,14 +37,14 @@ const AddItem = () => {
             className='w-25' 
             type="text" 
             placeholder="Item name" 
-            // onChange={(e) => dispatch(setName(e.target.value))}
+            onChange={(e) => setItemName(e.target.value)}
           />
         </Card.Header>
         <ListGroup variant="flush">
           <ListGroup.Item className='d-flex flex-column gap-2'>
             <div className='d-flex gap-1'>
               {
-                tags?.map(it => (
+                tags.map(it => (
                   <Badge pill bg="primary">
                     #{it}
                   </Badge>
@@ -54,15 +52,16 @@ const AddItem = () => {
               }
             </div>
             <div className='d-flex gap-2'>
-              <Form.Control className='w-25' type="text" placeholder="add tag" value={nameTag} onChange={(e) => setNameTag(e.target.value)} />
-              <Button onClick={() => addTag()}>+</Button>
+              <Form.Control className='w-25' type="text" placeholder="add tag" onChange={(e) => setItemTags(e.target.value)} />
+              <Button onClick={() => setTags([...tags, itemTags])}>+</Button>
             </div>
             {
-              jsonData.map(it => (
+              collection.settings && collection.settings.map((it, idx) => (
                 <Form.Control
+                  key={idx}
                   type={ it.type }
                   placeholder={ `Enter ${joinValue(it.name)}` }
-                  // onChange={(e) => dispatch(setFields({ name: it.name, value: e.target.value }))}
+                  onChange={(e) => dispatch(setOptions({ nameOption: it.name, valueOption: e.target.value }))}
                 />
               ))
             }

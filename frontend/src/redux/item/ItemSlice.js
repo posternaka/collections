@@ -1,12 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addItem, getItems, getItem, updateItem, deleteItem } from './asyncAction';
-import { STATUS } from '../types/types';
+import { addItem, getAllItems, getCollectionItems, getItem, updateItem, deleteItem } from './asyncAction';
+import { STATUS } from '../types/status';
 
 const initialState = {
+    newItemId: '',
     itemName: '',
-    fields: {},
+    options: {},
     collection: {},
-    items: [],
+    allItems: [],
+    collectionItems: [],
     item: {},
     status: STATUS.LOADING,
     error: null
@@ -21,27 +23,40 @@ const itemSlice = createSlice({
     name: 'item',
     initialState,
     reducers: {
+        setOptions(state, action) {
+            state.options[action.payload.nameOption] = action.payload.valueOption;
+        },
         addNewItem (state, action) {
-            state.items.push(action.payload);
+            console.log(action.payload);
+            state.collectionItems.push(action.payload);
+            state.newItemId = action.payload.id;
         },
         updateCollectionItem (state, action) {
-            const originalItem = state.items.find(item => item.id === +action.payload.id);
-            state.originalItem.nameItem = action.payload.body.nameItem;
-            state.originalItem.params = action.payload.body.params;
+            const originalItem = state.collectionItems.find(item => item.id === +action.payload.id);
+            originalItem.nameItem = action.payload.body.nameItem;
+            originalItem.params = action.payload.body.params;
         },
         removeItem (state, action) {
-            state.items = state.items.filter(it => it.id !== +action.payload);
+            state.collectionItems = state.collectionItems.filter(it => it.id !== +action.payload);
         }
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getItems.pending, (state) => {
+            .addCase(getAllItems.pending, (state) => {
                 state.status = STATUS.LOADING;
                 state.error = null;
             })
-            .addCase(getItems.fulfilled, (state, action) => {
+            .addCase(getAllItems.fulfilled, (state, action) => {
                 state.status = STATUS.SUCCESS;
-                state.items = action.payload;
+                state.allItems = action.payload;
+            })
+            .addCase(getCollectionItems.pending, (state) => {
+                state.status = STATUS.LOADING;
+                state.error = null;
+            })
+            .addCase(getCollectionItems.fulfilled, (state, action) => {
+                state.status = STATUS.SUCCESS;
+                state.collectionItems = action.payload;
             })
             .addCase(getItem.pending, (state) => {
                 state.status = STATUS.LOADING;
@@ -58,4 +73,4 @@ const itemSlice = createSlice({
 })
 
 export default itemSlice.reducer;
-export const { addNewItem, updateCollectionItem, removeItem } = itemSlice.actions;
+export const { setOptions, addNewItem, updateCollectionItem, removeItem } = itemSlice.actions;

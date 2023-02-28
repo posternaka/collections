@@ -24,13 +24,13 @@ export const getUserCollections = createAsyncThunk(
     'collection/getUserCollections',
     async (id, { rejectWithValue }) => {
         try {
-            const collections = await axios.get(`${collectionUrl}/${id}`);
+            const userCollections = await axios.get(`${collectionUrl}/user/${id}`);
 
-            if(!collections.statusText) {
+            if(!userCollections.statusText) {
                 throw new Error('Server Error (GET)');
             }
 
-            return collections.data;
+            return userCollections.data;
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -48,6 +48,23 @@ export const getAllCollections = createAsyncThunk(
             }
 
             return collections.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+)
+
+export const getCollection = createAsyncThunk(
+    'collection/getCollectionSettings',
+    async (id, { rejectWithValue }) => {
+        try {
+            const collection = await axios.get(`${collectionUrl}/${id}`);
+
+            if(!collection.statusText) {
+                throw new Error('Server Error (GET COLLECTION ITEMS)');
+            }
+
+            return collection.data;
         } catch (error) {
             return rejectWithValue(error.message);
         }

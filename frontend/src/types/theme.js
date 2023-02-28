@@ -1,6 +1,6 @@
-export const theme = ['Book', 'Movie', 'Game', 'Music', 'Car', 'Alcohol', 'Sport'];
+export const THEMES = ['Book', 'Movie', 'Game', 'Music', 'Car', 'Alcohol', 'Sport'];
 
-export const options = ['number', 'text', 'markdown', 'date', 'boolean'];
+export const TYPES = ['number', 'text', 'markdown', 'date', 'boolean'];
 
 export const fieldsMap = {
     number: `<Form.Control type="number" placeholder="Enter number" />`,
