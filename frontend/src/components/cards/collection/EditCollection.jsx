@@ -4,10 +4,17 @@ import { updateCollection } from '../../../redux/collection/asyncAction';
 
 import { Card, Form, Button } from 'react-bootstrap';
 
+import InputMemo from './InputMemo';
+
+import { fieldsMap } from '../../../types/theme';
+
 import { THEMES, options } from '../../../types/theme'; 
 
 const ViewCard = ({ collection, setIsEdit }) => {
     const dispatch = useDispatch();
+
+    // const Tag = fieldsMap[type];
+    const Tag = fieldsMap.number;
 
     const [newName, setNewName] = useState(collection.collectionName);
     const [newTheme, setNewTheme] = useState(collection.theme);
@@ -34,11 +41,7 @@ const ViewCard = ({ collection, setIsEdit }) => {
             <Card.Img variant="top" src="https://via.placeholder.com/110x100/09f.png/fff" />
             <Card.Body className='d-flex flex-column gap-1'>
                 <div className='d-flex justify-content-between gap-1'>
-                    <Form.Control 
-                        type="text" 
-                        value={newName} 
-                        onChange={(e) => setNewName(e.target.value)} 
-                    />
+                    <Tag type="text" value={newName} onChange={setNewName} />
                     <Form.Select 
                         aria-label={collection.theme} 
                         value={newTheme} 
@@ -51,11 +54,7 @@ const ViewCard = ({ collection, setIsEdit }) => {
                         }
                     </Form.Select>
                 </div>
-                <Form.Control
-                    type="text" 
-                    value={newDesc} 
-                    onChange={(e) => setNewDesc(e.target.value)} 
-                />
+                <Tag type="text" value={newDesc} onChange={setNewDesc} />
                 <span>Settings:</span>
                 <Button variant="light">+</Button>
                 {

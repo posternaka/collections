@@ -106,7 +106,7 @@ const Admin = ({ token }) => {
                                 </td>
                                 <td>{it.username}</td>
                                 <td>
-                                    <Link to={`users/${it.id}`}>
+                                    <Link to={`/collection/${it.id}`}>
                                         col.{it.id}
                                     </Link>
                                 </td>

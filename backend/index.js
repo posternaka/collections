@@ -7,6 +7,7 @@ const collectionRoute = require('./routes/collectionRoute.js');
 const itemRoute = require('./routes/itemRoute.js');
 const tagRoute = require('./routes/tagRoute.js');
 const commentRoute = require('./routes/commentRoute.js');
+const likeRoute = require('./routes/likeRoute.js')
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -19,6 +20,7 @@ app.use('/collection', collectionRoute);
 app.use('/item', itemRoute);
 app.use('/tag', tagRoute);
 app.use('/comment', commentRoute);
+app.use('/like', likeRoute);
 
 const start = async () => {
     try {

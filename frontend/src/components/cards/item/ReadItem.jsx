@@ -3,6 +3,7 @@ import { Card, ListGroup, Container, Badge, Button } from 'react-bootstrap';
 import { joinValue } from '../../../helpers/index';
 
 import { deleteItem } from '../../../redux/item/asyncAction';
+import { Link } from 'react-router-dom';
 
 const ReadItem = ({ item, setIsEdit }) => {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const ReadItem = ({ item, setIsEdit }) => {
         </Card.Header>
         <ListGroup variant="flush">
           <ListGroup.Item className='d-flex flex-column gap-2'>
-            {
+            {/* {
               tag?.tags && 
                   <div className='d-flex gap-1 align-items-center'>
                     {
@@ -39,14 +40,16 @@ const ReadItem = ({ item, setIsEdit }) => {
                       ))
                     }
                   </div>
-            }
+            } */}
             
               {
                 collection.settings && collection.settings.map((param, idx) => (
-                  <div key={idx} className='d-flex gap-2'>
-                    <span className='opacity-75 fw-bold'>{joinValue(param.name)}: </span>
-                    <span>{item.params[param.name]}</span>
-                  </div>
+                  <Link to={`/item/${item.id}`}>
+                    <div key={idx} className='d-flex gap-2'>
+                      <span className='opacity-75 fw-bold'>{joinValue(param.name)}: </span>
+                      <span>{item.params[param.name]}</span>
+                    </div>
+                  </Link>
                 ))
               }
           </ListGroup.Item>

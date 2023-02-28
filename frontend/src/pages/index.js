@@ -6,5 +6,6 @@ import SignUp from "./SignUp";
 import AddCollection from "./AddCollection";
 import AddItem from "./AddItem";
 import Collection from "./Collection";
+import Item from "./Item";
 
-export { Profile, Collection, Admin, Home, SignIn, SignUp, AddCollection, AddItem }
+export { Profile, Collection, Admin, Item, Home, SignIn, SignUp, AddCollection, AddItem }

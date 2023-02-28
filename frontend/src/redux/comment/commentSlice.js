@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addComment, getComments, deleteComment } from './asyncAction';
+import { createComment, getComments, deleteComment } from './asyncAction';
 import { STATUS } from '../types/status';
 
 const initialState = {
-    comments: [],
+    comments: {},
     status: STATUS.LOADING,
     error: null
 }
@@ -13,15 +13,15 @@ const setError = (state, action) => {
     state.error = action.payload;
 }
 
-const CommentSlice = createSlice({
+const commentSlice = createSlice({
     name: 'comment',
     initialState,
     reducers: {
         addNewComment(state, action) {
-            state.comments.push(action.payload);
+            state.comments = action.payload;
         },
         removeComment(state, action) {
-            state.comments = state.comments.filter(it => it.id !== +action.payload);
+            state.comments.comments = state.comments.filter(it => it.id !== +action.payload);
         }
     },
     extraReducers: (builder) => {
@@ -35,10 +35,10 @@ const CommentSlice = createSlice({
                 state.comments = action.payload;
             })
             .addCase(getComments.rejected, setError)
-            .addCase(addComment.rejected, setError)
+            .addCase(createComment.rejected, setError)
             .addCase(deleteComment.rejected, setError)
     },
 });
 
-export default CommentSlice.reducer;
-export const { addNewComment, removeComment } = CommentSlice.actions;
+export default commentSlice.reducer;
+export const { addNewComment, removeComment } = commentSlice.actions;

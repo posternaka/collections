@@ -9,9 +9,13 @@ export const createTag = createAsyncThunk(
         try {
             const response = await axios.post(tagUrl, body);
 
+            console.log(body);
+
             if(!response.statusText) {
                 throw new Error('Server Error (POST)');
             }
+
+
         } catch (error) {
             return rejectWithValue(error.message);
         }

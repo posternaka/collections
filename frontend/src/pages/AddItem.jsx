@@ -5,9 +5,10 @@ import { setOptions } from '../redux/item/itemSlice';
 import { Card, ListGroup, Container, Form, Button, Badge } from 'react-bootstrap';
 import { joinValue } from '../helpers/index';
 
-import { createTag } from '../redux/tag/asyncAction';
-
 import { addItem } from '../redux/item/asyncAction';
+import { createTag } from '../redux/tag/asyncAction';
+import { createLike } from '../redux/like/asyncAction';
+import { createComment } from '../redux/comment/asyncAction';
 
 const AddItem = () => {
   const dispatch = useDispatch();
@@ -21,12 +22,17 @@ const AddItem = () => {
   const collection = useSelector(state => state.collection.collection);
   const newItemId = useSelector(state => state.item.newItemId);
 
-  // console.log(newItemId);
+  const addTag = () => {
+    setTags([...tags, itemTags]);
+    setItemTags('');
+  }
 
-  const saveItem = () => {
+  const saveItem = async () => {
     dispatch(addItem({ collectionId: collection.id, nameItem: itemName, params: options }));
-    dispatch(createTag({ itemId: newItemId, tags }));
-    navigate(`/collection/${collection.id}`);
+    dispatch(createLike({ itemId: '' }));
+    dispatch(createTag({ itemId: '' }));
+    dispatch(createComment({ itemId: '' }))
+    // navigate(`/collection/${collection.id}`);
   }
 
   return (
@@ -44,16 +50,16 @@ const AddItem = () => {
           <ListGroup.Item className='d-flex flex-column gap-2'>
             <div className='d-flex gap-1'>
               {
-                tags.map(it => (
-                  <Badge pill bg="primary">
+                tags.map((it, idx) => (
+                  <Badge key={idx} pill bg="primary">
                     #{it}
                   </Badge>
                 ))
               }
             </div>
             <div className='d-flex gap-2'>
-              <Form.Control className='w-25' type="text" placeholder="add tag" onChange={(e) => setItemTags(e.target.value)} />
-              <Button onClick={() => setTags([...tags, itemTags])}>+</Button>
+              <Form.Control className='w-25' type="text" placeholder="add tag" value={itemTags} onChange={(e) => setItemTags(e.target.value)} />
+              <Button onClick={() => addTag()}>+</Button>
             </div>
             {
               collection.settings && collection.settings.map((it, idx) => (

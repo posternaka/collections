@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, ListGroup, Container, Form, Button, Badge } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { setOptions } from '../../../redux/item/itemSlice';
+import { setOptions, setOptionsWithEdit } from '../../../redux/item/itemSlice';
 import { joinValue } from '../../../helpers/index';
 
 import { updateItem } from '../../../redux/item/asyncAction'; 
@@ -10,23 +10,29 @@ import { addTag } from '../../../redux/tag/asyncAction';
 const EditItem = ({ item, setIsEdit }) => {
     const dispatch = useDispatch();
     const [newName, setNewName] = useState(item.nameItem);
-    
+
+    useEffect(() => {
+        dispatch(setOptionsWithEdit(item.params))
+    }, []);
+
     const collection = useSelector(state => state.collection.collection);
     const options = useSelector(state => state.item.options);
     const tag = useSelector(state => state.tag.itemTags);
     const [newTag, setNewTag] = useState('');
 
+    console.log(options);
+
     const saveItemChanges = () => {
         dispatch(updateItem({ id: item.id, body: { nameItem: newName, params: options }}));
-        dispatch(addTag({ id: item.id, body: [...tag?.tags, newTag]}));
+        // dispatch(addTag({ id: item.id, body: [...tag?.tags, newTag]}));
         setNewTag('');
         setIsEdit(false);
     }
 
-    const updateTags = () => {
-        dispatch(addTag({ id: item.id, body: [...tag?.tags, newTag]}));
-        setNewTag('');
-    }
+    // const updateTags = () => {
+    //     dispatch(addTag({ id: item.id, body: [...tag?.tags, newTag]}));
+    //     setNewTag('');
+    // }
 
     return (
         <Container>
@@ -51,7 +57,7 @@ const EditItem = ({ item, setIsEdit }) => {
             <ListGroup variant="flush">
                 <ListGroup.Item className='d-flex flex-column gap-2'>
                     <div className='d-flex gap-1 align-items-center'>
-                        {
+                        {/* {
                             tag?.tags && 
                                 <div className='d-flex gap-1 align-items-center'>
                                     {
@@ -62,12 +68,12 @@ const EditItem = ({ item, setIsEdit }) => {
                                         ))
                                     }
                                 </div>
-                        }
+                        } */}
                     </div>
-                    <div className='d-flex gap-2'>
+                    {/* <div className='d-flex gap-2'>
                         <Form.Control className='w-25' type="text" placeholder="add tag" value={newTag} onChange={(e) => setNewTag(e.target.value) } />
                         <Button onClick={() => updateTags()}>+</Button>
-                    </div>
+                    </div> */}
                         {
                             collection.settings && collection.settings.map((param, idx) => (
                                 <div key={idx} className='d-flex gap-2 align-items-center'>
@@ -75,7 +81,7 @@ const EditItem = ({ item, setIsEdit }) => {
                                     <Form.Control 
                                         className='w-25' 
                                         type={ param.type } 
-                                        placeholder={`${ joinValue(param.name) }`} 
+                                        placeholder={`${ joinValue(param.name) }`}
                                         defaultValue={item.params[param.name]}
                                         onChange={(e) => dispatch(setOptions({ nameOption: param.name, valueOption: e.target.value }))} 
                                     />

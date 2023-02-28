@@ -7,7 +7,8 @@ const Tag = db.define("tag",
     {
         itemId: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         tags: {
             type: DataTypes.JSON,

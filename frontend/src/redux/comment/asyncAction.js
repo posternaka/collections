@@ -3,7 +3,7 @@ import axios from 'axios';
 import { commentUrl } from '../../types/url';
 import { addNewComment, removeComment } from './commentSlice';
 
-export const addComment = createAsyncThunk(
+export const createComment = createAsyncThunk(
     'comment/addComment',
     async (body, { rejectWithValue, dispatch }) => {
         try {
@@ -22,9 +22,9 @@ export const addComment = createAsyncThunk(
 
 export const getComments = createAsyncThunk(
     'comment/getComments',
-    async (_, { rejectWithValue }) => {
+    async (id, { rejectWithValue }) => {
         try {
-            const comments = await axios.get(commentUrl);
+            const comments = await axios.get(`${commentUrl}/${id}`);
 
             if(!comments.statusText) {
                 throw new Error('Server Error (GET)');

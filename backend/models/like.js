@@ -3,17 +3,18 @@ const db = require('../utils/database.js');
 
 const { DataTypes } = Sequelize;
 
-const Favorite = db.define('favorite', 
+const Like = db.define('like', 
     {
         itemId: {
-            type: DataTypes.NUMBER,
+            type: DataTypes.STRING,
             allowNull: false
         },
         userId: {
             type: DataTypes.JSON,
+            defaultValue: [],
             allowNull: false
         }
     }
 );
 
-module.exports = Favorite;
+module.exports = Like;

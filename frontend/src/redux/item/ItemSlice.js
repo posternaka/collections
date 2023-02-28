@@ -10,6 +10,7 @@ const initialState = {
     allItems: [],
     collectionItems: [],
     item: {},
+
     status: STATUS.LOADING,
     error: null
 };
@@ -23,13 +24,16 @@ const itemSlice = createSlice({
     name: 'item',
     initialState,
     reducers: {
+        setOptionsWithEdit(state, action) {
+            state.options = action.payload;
+        },
         setOptions(state, action) {
             state.options[action.payload.nameOption] = action.payload.valueOption;
         },
         addNewItem (state, action) {
             console.log(action.payload);
-            state.collectionItems.push(action.payload);
             state.newItemId = action.payload.id;
+            state.collectionItems.push(action.payload);
         },
         updateCollectionItem (state, action) {
             const originalItem = state.collectionItems.find(item => item.id === +action.payload.id);
@@ -73,4 +77,4 @@ const itemSlice = createSlice({
 })
 
 export default itemSlice.reducer;
-export const { setOptions, addNewItem, updateCollectionItem, removeItem } = itemSlice.actions;
+export const { setOptions, setOptionsWithEdit, addNewItem, updateCollectionItem, removeItem } = itemSlice.actions;
