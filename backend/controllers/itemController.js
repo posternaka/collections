@@ -58,7 +58,8 @@ class itemController {
             await Item.update(
                 {
                     nameItem: req.body.nameItem,
-                    params: req.body.params
+                    params: req.body.params,
+                    tags: req.body.tags
                 },
                 {
                     where: {

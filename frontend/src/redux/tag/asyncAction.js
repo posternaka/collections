@@ -1,73 +1,37 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { addNewTags } from './tagSlice';
+import { addTag } from './tagSlice';
 import { tagUrl } from '../../types/url';
 
 export const createTag = createAsyncThunk(
     'tag/createTag',
-    async (body, { rejectWithValue }) => {
+    async (body, { rejectWithValue, dispatch }) => {
         try {
             const response = await axios.post(tagUrl, body);
-
-            console.log(body);
 
             if(!response.statusText) {
                 throw new Error('Server Error (POST)');
             }
 
-
+            dispatch(addTag(response.data));
         } catch (error) {
             return rejectWithValue(error.message);
         }
     }
 )
 
-export const getItemTags = createAsyncThunk(
-    'tag/getItemTags',
-    async (id, { rejectWithValue }) => {
-        try {
-            const itemTags = await axios.get(`${tagUrl}/${id}`);
-
-            if(!itemTags.statusText) {
-                throw new Error('Server Error (GET ITEM TAGS)');
-            }
-
-            return itemTags.data;
-        } catch (error) {
-            return rejectWithValue(error.message);
-        }
-    }
-)
-
-export const getAllTags = createAsyncThunk(
+export const getTags = createAsyncThunk(
     'tag/getAllTags',
     async (_, { rejectWithValue }) => {
         try {
-            const allTags = await axios.get(tagUrl);
-
-            if(!allTags.statusText) {
-                throw new Error('Server Error (GET ALL TAGS)');
-            }
-
-            return allTags.data;
-        } catch (error) {
-            return rejectWithValue(error.message);
-        }
-    }
-)
-    
-export const addTag = createAsyncThunk(
-    'tag/updateTag',
-    async (params, { rejectWithValue, dispatch }) => {
-        try {
-            const tags = await axios.patch(`${tagUrl}/${params.id}`, params.body);
+            const tags = await axios.get(tagUrl);
 
             if(!tags.statusText) {
-                throw new Error('Server Error (UPDATE ITEM TAGS)');
+                throw new Error('Server Error (GET ALL TAGS)');
             }
-
-            dispatch(addNewTags(params.body));
+            return tags.data;
         } catch (error) {
+            console.log(error);
             return rejectWithValue(error.message);
         }
     }

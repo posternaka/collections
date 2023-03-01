@@ -5,14 +5,9 @@ const { DataTypes } = Sequelize;
 
 const Tag = db.define("tag", 
     {
-        itemId: {
+        tag: {
             type: DataTypes.STRING,
-            allowNull: false,
-            unique: true
-        },
-        tags: {
-            type: DataTypes.JSON,
-            defaultValue: [],
+            unique: true,
             allowNull: false
         }
     }

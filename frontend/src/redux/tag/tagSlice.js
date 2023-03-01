@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createTag, addTag, getItemTags, getAllTags } from './asyncAction';
+import { createTag, getTags } from './asyncAction';
 import { STATUS } from '../types/status';
 
 const initialState = {
-    itemTags: {},
-    allTags: []
+    tags: [],
+    status: STATUS.LOADING,
+    error: null
 };
 
 const setError = (state, action) => {
@@ -16,34 +17,23 @@ const tagSlice = createSlice({
     name: 'tag',
     initialState,
     reducers: {
-        addNewTags(state, action) {
-            state.itemTags.tags = action.payload;
+        addTag(state, action) {
+            state.tags.push(action.payload);
         },
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getItemTags.pending, (state) => {
+            .addCase(getTags.pending, (state) => {
                 state.status = STATUS.LOADING;
                 state.error = null;
             })
-            .addCase(getItemTags.fulfilled, (state, action) => {
+            .addCase(getTags.fulfilled, (state, action) => {
                 state.status = STATUS.SUCCESS;
-                state.itemTags = action.payload;
+                state.tags = action.payload;
             })
-            .addCase(getAllTags.pending, (state) => {
-                state.status = STATUS.LOADING;
-                state.error = null;
-            })
-            .addCase(getAllTags.fulfilled, (state, action) => {
-                state.status = STATUS.SUCCESS;
-                state.allTags = action.payload;
-            })
-            .addCase(getItemTags.rejected, setError)
-            .addCase(getAllTags.rejected, setError)
-            .addCase(addTag.rejected, setError)
             .addCase(createTag.rejected, setError)
     },
 })
 
 export default tagSlice.reducer;
-export const { addNewTags } = tagSlice.actions;
+export const { addTag } = tagSlice.actions;

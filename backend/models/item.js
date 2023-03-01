@@ -15,6 +15,10 @@ const Item = db.define('item',
         params: {
             type: DataTypes.JSON,
             allowNull: false
+        },
+        tags: {
+            type: DataTypes.JSON,
+            allowNull: false
         }
     }
 );

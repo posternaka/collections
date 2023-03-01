@@ -1,25 +1,25 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllTags } from '../redux/tag/asyncAction';
 import { getAllCollections } from '../redux/collection/asyncAction';
 import { getAllItems } from '../redux/item/asyncAction';
+import { getTags } from '../redux/tag/asyncAction';
 
 import { Container, Col, Row } from 'react-bootstrap';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const tag = useSelector(state => state.tag.allTags);
   const collection = useSelector(state => state.collection.allCollections);
   const item = useSelector(state => state.item.allItems);
+
 
   // console.log(tag, 'tag');
   // console.log(collection, 'collection');
   // console.log(item, 'item');
 
   useEffect(()=> {
-    dispatch(getAllTags());
     dispatch(getAllCollections());
     dispatch(getAllItems());
+    dispatch(getTags());
   }, [])
 
 
