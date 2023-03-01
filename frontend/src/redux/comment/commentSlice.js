@@ -3,7 +3,7 @@ import { createComment, getComments, deleteComment } from './asyncAction';
 import { STATUS } from '../types/status';
 
 const initialState = {
-    comments: {},
+    comments: [],
     status: STATUS.LOADING,
     error: null
 }
@@ -18,10 +18,10 @@ const commentSlice = createSlice({
     initialState,
     reducers: {
         addNewComment(state, action) {
-            state.comments = action.payload;
+            state.comments.push(action.payload);
         },
         removeComment(state, action) {
-            state.comments.comments = state.comments.filter(it => it.id !== +action.payload);
+            state.comments = state.comments.filter(it => it.id !== +action.payload);
         }
     },
     extraReducers: (builder) => {

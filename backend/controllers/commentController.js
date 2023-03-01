@@ -13,7 +13,7 @@ class commentController {
 
     async getComment (req, res) {
         try {
-            const comments = await Comment.findOne(
+            const comments = await Comment.findAll(
                 {
                     where: {
                         itemId: req.params.id

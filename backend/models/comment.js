@@ -9,9 +9,8 @@ const Comment = db.define('comment',
             type: DataTypes.STRING,
             allowNull: false,
         },
-        userId: {
+        username: {
             type: DataTypes.STRING,
-            unique: true,
             allowNull: false,
         },
         comment: {

@@ -1,23 +1,31 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, ListGroup, Container, Badge, Button, Toast } from 'react-bootstrap';
+import { Card, ListGroup, Container, Badge, Button, Toast, Form } from 'react-bootstrap';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { joinValue } from '../helpers';
 import { getItem } from '../redux/item/asyncAction';
 
 import { getLike, updateLike, createLike } from '../redux/like/asyncAction';
+import { createComment, getComments, deleteComment } from '../redux/comment/asyncAction';
+
+import { formatDate } from '../helpers/date';
 
 const Item = ({ user }) => {
     const dispatch = useDispatch();
     const { id } = useParams();
+    const [commentValue, setCommentValue] = useState('');
     const item = useSelector(state => state.item.item);
     const collection = useSelector(state => state.collection.collection);
     const like = useSelector(state => state.like.like);
+    const comments = useSelector(state => state.comment.comments);
+
+    console.log(item);
 
     useEffect(() => {
         dispatch(getLike(user.id));
         dispatch(getItem(id));
+        dispatch(getComments(id));
     }, []);
 
     const checkUserLike = () => {
@@ -30,6 +38,11 @@ const Item = ({ user }) => {
             const likes = [...like.itemId, item.id];
             return dispatch(updateLike({ userId: user.id, body: likes }));
         }
+    }
+
+    const handleAddComment = () => {
+        dispatch(createComment({ itemId: item.id, username: user.username, comment: commentValue }))
+        setCommentValue('');
     }
 
     return (
@@ -67,17 +80,29 @@ const Item = ({ user }) => {
                         ))
                     }
                     </ListGroup.Item>
-                    <ListGroup.Item>
-                        <Toast.Header closeButton={false}>
-                            <img
-                                src="https://via.placeholder.com/20/09f.png/000"
-                                className="rounded me-2"
-                                alt=""
+                    <ListGroup.Item className='d-flex flex-column gap-2'>
+                        <div className='d-flex gap-1'>
+                            <Form.Control 
+                                className='w-50'
+                                type='text' 
+                                placeholder="add comment" 
+                                value={commentValue} 
+                                onChange={(e) => setCommentValue(e.target.value)} 
                             />
-                            <strong className="me-auto">Nikita</strong>
-                            <small>11 mins ago</small>
-                        </Toast.Header>
-                        <Toast.Body>I really like your idea. Sounds cool.</Toast.Body>
+                            <Button variant="primary" onClick={() => handleAddComment()} >Add</Button> 
+                        </div>
+                        {
+                            comments.map(comment => (
+                                <div>
+                                    <Toast.Header closeButton={false}>
+                                        <strong className="me-auto">{comment.username}</strong>
+                                        <small>{formatDate(comment.createdAt)}</small>
+                                        <small role="button" className='ms-5 lead' onClick={() => dispatch(deleteComment(comment.id))}>&#9932;</small>
+                                    </Toast.Header>
+                                    <Toast.Body>{comment.comment}</Toast.Body>
+                                </div>
+                            ))
+                        }
                     </ListGroup.Item>
                 </ListGroup>
             </Card>

@@ -46,8 +46,6 @@ class itemController {
                     },
                 }
             );
-
-            console.log(item);
             return res.status(200).json(item);
         } catch (error) {
             console.log(error);
