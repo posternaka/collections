@@ -1,38 +1,49 @@
-import { useState, useEffect } from 'react';
-import { Card, ListGroup, Container, Form, Button, Badge } from 'react-bootstrap';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setOptions, setOptionsWithEdit } from '../../../redux/item/itemSlice';
+
+import OverlayComponent from '../../UI/overlay/OverlayComponent';
+
+import { Card, ListGroup, Container, Form, Button, Badge } from 'react-bootstrap';
 import { joinValue } from '../../../helpers/index';
 
 import { updateItem } from '../../../redux/item/asyncAction'; 
-import { addTag } from '../../../redux/tag/asyncAction';
+import { createTag } from '../../../redux/tag/asyncAction'; 
+import { setOptions, setOptionsWithEdit } from '../../../redux/item/itemSlice';
+
 
 const EditItem = ({ item, setIsEdit }) => {
     const dispatch = useDispatch();
     const [newName, setNewName] = useState(item.nameItem);
+    const [itemTags, setItemTags] = useState(item.tags.map(it => it.tag));
+    const [tagValue, setTagValue] = useState([]);
 
     useEffect(() => {
-        dispatch(setOptionsWithEdit(item.params))
+        dispatch(setOptionsWithEdit(item.params));
     }, []);
 
     const collection = useSelector(state => state.collection.collection);
     const options = useSelector(state => state.item.options);
-    const tag = useSelector(state => state.tag.itemTags);
-    const [newTag, setNewTag] = useState('');
-
-    console.log(options);
+    const tags = useSelector(state => state.tag.tags);
 
     const saveItemChanges = () => {
-        dispatch(updateItem({ id: item.id, body: { nameItem: newName, params: options }}));
-        // dispatch(addTag({ id: item.id, body: [...tag?.tags, newTag]}));
-        setNewTag('');
+        // const correctTags = tags.filter(tag => itemTags.includes(tag.tag)).map(tag => ({ id: tag.id, tag: tag.tag }));
+        dispatch(updateItem({ id: item.id, body: { nameItem: newName, params: options, tags: itemTags }}));
         setIsEdit(false);
     }
 
-    // const updateTags = () => {
-    //     dispatch(addTag({ id: item.id, body: [...tag?.tags, newTag]}));
-    //     setNewTag('');
-    // }
+    const addTag = () => {
+        const onlyValueTags = tags.map(tag => tag.tag);
+        if(onlyValueTags.includes(tagValue)) {
+            setItemTags([...itemTags, tagValue]);
+            setTagValue('');
+            return
+        }
+
+        dispatch(createTag({ tag: tagValue }));
+        setItemTags([...itemTags, tagValue]);
+
+        setTagValue('');
+    }
 
     return (
         <Container>
@@ -48,7 +59,7 @@ const EditItem = ({ item, setIsEdit }) => {
                     <Button 
                         variant="outline-warning" 
                         size="sm" 
-                        onClick={() => saveItemChanges()} 
+                        onClick={() => saveItemChanges()}
                     >
                         Save 
                     </Button>
@@ -57,23 +68,19 @@ const EditItem = ({ item, setIsEdit }) => {
             <ListGroup variant="flush">
                 <ListGroup.Item className='d-flex flex-column gap-2'>
                     <div className='d-flex gap-1 align-items-center'>
-                        {/* {
-                            tag?.tags && 
-                                <div className='d-flex gap-1 align-items-center'>
-                                    {
-                                        tag.tags?.map(it => (
-                                            <Badge pill bg="primary">
-                                                #{it}
-                                            </Badge>
-                                        ))
-                                    }
-                                </div>
-                        } */}
+                    {
+                        <div className='d-flex gap-1 align-items-center'>
+                                {
+                                    itemTags.map(tag => (
+                                        <Badge pill bg="primary">
+                                            #{tag}
+                                        </Badge>
+                                    ))
+                                }
+                            </div>
+                    }
                     </div>
-                    {/* <div className='d-flex gap-2'>
-                        <Form.Control className='w-25' type="text" placeholder="add tag" value={newTag} onChange={(e) => setNewTag(e.target.value) } />
-                        <Button onClick={() => updateTags()}>+</Button>
-                    </div> */}
+                    <OverlayComponent tags={tags} tagValue={tagValue} setTagValue={setTagValue} addTag={addTag} />
                         {
                             collection.settings && collection.settings.map((param, idx) => (
                                 <div key={idx} className='d-flex gap-2 align-items-center'>

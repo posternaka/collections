@@ -7,5 +7,7 @@ import AddCollection from "./AddCollection";
 import AddItem from "./AddItem";
 import Collection from "./Collection";
 import Item from "./Item";
+import EditAdmin from "./EditAdmin";
+import NotFound from './NotFound';
 
-export { Profile, Collection, Admin, Item, Home, SignIn, SignUp, AddCollection, AddItem }
+export { Profile, Collection, Admin, Item, Home, SignIn, SignUp, AddCollection, AddItem, EditAdmin, NotFound }

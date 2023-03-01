@@ -8,10 +8,6 @@ import { Link } from 'react-router-dom';
 const ReadItem = ({ item, setIsEdit }) => {
   const dispatch = useDispatch();
   const collection = useSelector(state => state.collection.collection);
-  const tag = useSelector(state => state.tag.itemTags);
-
-  // console.log(tag);
-
 
   return (
     <Container>
@@ -29,19 +25,15 @@ const ReadItem = ({ item, setIsEdit }) => {
         </Card.Header>
         <ListGroup variant="flush">
           <ListGroup.Item className='d-flex flex-column gap-2'>
-            {/* {
-              tag?.tags && 
-                  <div className='d-flex gap-1 align-items-center'>
-                    {
-                      tag.tags?.map(it => (
-                        <Badge pill bg="primary">
-                          #{it}
-                        </Badge>
-                      ))
-                    }
-                  </div>
-            } */}
-            
+            <div className='d-flex gap-1 align-items-center'>
+              {
+                item.tags.map(tag => (
+                  <Badge key={tag.id} pill bg="primary">
+                    #{tag.tag}
+                  </Badge>
+                ))
+              }
+            </div>
             <Link to={`/item/${item.id}`} className='text-decoration-none text-reset'>
               {
                 collection.settings && collection.settings.map((param, idx) => (

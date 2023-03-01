@@ -91,7 +91,7 @@ const Admin = ({ token }) => {
                         <th>#</th>
                         <th>select all</th>
                         <th>Username</th>
-                        <th>Collection</th>
+                        <th>Collections</th>
                         <th>Role</th>
                         <th>Status</th>
                     </tr>
@@ -106,8 +106,8 @@ const Admin = ({ token }) => {
                                 </td>
                                 <td>{it.username}</td>
                                 <td>
-                                    <Link to={`/collection/${it.id}`}>
-                                        col.{it.id}
+                                    <Link to={`/edit_admin/${it.id}`}>
+                                        collections
                                     </Link>
                                 </td>
                                 <td>{it.role}</td>

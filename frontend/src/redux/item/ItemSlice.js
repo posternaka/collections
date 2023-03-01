@@ -39,6 +39,7 @@ const itemSlice = createSlice({
             const originalItem = state.collectionItems.find(item => item.id === +action.payload.id);
             originalItem.nameItem = action.payload.body.nameItem;
             originalItem.params = action.payload.body.params;
+            originalItem.tags = action.payload.body.tags;
         },
         removeItem (state, action) {
             state.collectionItems = state.collectionItems.filter(it => it.id !== +action.payload);
