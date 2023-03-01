@@ -42,16 +42,16 @@ const ReadItem = ({ item, setIsEdit }) => {
                   </div>
             } */}
             
+            <Link to={`/item/${item.id}`} className='text-decoration-none text-reset'>
               {
                 collection.settings && collection.settings.map((param, idx) => (
-                  <Link to={`/item/${item.id}`}>
                     <div key={idx} className='d-flex gap-2'>
                       <span className='opacity-75 fw-bold'>{joinValue(param.name)}: </span>
                       <span>{item.params[param.name]}</span>
                     </div>
-                  </Link>
                 ))
               }
+            </Link>
           </ListGroup.Item>
         </ListGroup>
       </Card>

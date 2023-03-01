@@ -66,7 +66,7 @@ DELETE http://localhost:5000/item/9
 GET http://localhost:5000/item/all/17
 
 ###
-GET http://localhost:5000/item/1
+GET http://localhost:5000/item/22
 
 ###
 GET http://localhost:5000/item/favorite/1
@@ -138,3 +138,22 @@ GET http://localhost:5000/comment
 
 ###
 DELETE http://localhost:5000/comment/6
+
+
+// LIKE
+###
+POST http://localhost:5000/like
+Content-Type: application/json
+
+{
+    "userId": "3",
+    "itemId": ["25"]
+}
+
+###
+PATCH  http://localhost:5000/like/1
+Content-Type: application/json
+
+{
+    "itemId": ["25"]
+}

@@ -5,14 +5,14 @@ const { DataTypes } = Sequelize;
 
 const Like = db.define('like', 
     {
-        itemId: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
         userId: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true
+        },
+        itemId: {
             type: DataTypes.JSON,
-            defaultValue: [],
-            allowNull: false
+            allowNull: false,
         }
     }
 );

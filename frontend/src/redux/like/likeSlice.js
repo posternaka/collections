@@ -18,6 +18,9 @@ const likeSlice = createSlice({
     initialState,
     reducers: {
         updateUserLike (state, action) {
+            state.like.itemId = action.payload;
+        },
+        createUserLike (state, action) {
             state.like = action.payload;
         },
     },
@@ -37,4 +40,4 @@ const likeSlice = createSlice({
 })
 
 export default likeSlice.reducer;
-export const { updateUserLike } = likeSlice.actions;
+export const { updateUserLike, createUserLike } = likeSlice.actions;

@@ -6,9 +6,6 @@ import { Card, ListGroup, Container, Form, Button, Badge } from 'react-bootstrap
 import { joinValue } from '../helpers/index';
 
 import { addItem } from '../redux/item/asyncAction';
-import { createTag } from '../redux/tag/asyncAction';
-import { createLike } from '../redux/like/asyncAction';
-import { createComment } from '../redux/comment/asyncAction';
 
 const AddItem = () => {
   const dispatch = useDispatch();
@@ -20,7 +17,6 @@ const AddItem = () => {
 
   const options = useSelector(state => state.item.options);
   const collection = useSelector(state => state.collection.collection);
-  const newItemId = useSelector(state => state.item.newItemId);
 
   const addTag = () => {
     setTags([...tags, itemTags]);
@@ -29,10 +25,7 @@ const AddItem = () => {
 
   const saveItem = async () => {
     dispatch(addItem({ collectionId: collection.id, nameItem: itemName, params: options }));
-    dispatch(createLike({ itemId: '' }));
-    dispatch(createTag({ itemId: '' }));
-    dispatch(createComment({ itemId: '' }))
-    // navigate(`/collection/${collection.id}`);
+    navigate(`/collection/${collection.id}`);
   }
 
   return (

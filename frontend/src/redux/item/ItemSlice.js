@@ -10,7 +10,6 @@ const initialState = {
     allItems: [],
     collectionItems: [],
     item: {},
-
     status: STATUS.LOADING,
     error: null
 };
