@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/collections/static/css/main.c2cab247.css",
+    "main.js": "/collections/static/js/main.cfa0ea56.js",
+    "index.html": "/collections/index.html",
+    "main.c2cab247.css.map": "/collections/static/css/main.c2cab247.css.map",
+    "main.cfa0ea56.js.map": "/collections/static/js/main.cfa0ea56.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c2cab247.css",
+    "static/js/main.cfa0ea56.js"
+  ]
+}
