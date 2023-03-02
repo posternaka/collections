@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router-dom';
 import Header from '../components/Header';
 
-const Layout = ({ user }) => {
+const Layout = () => {
   return (
     <>
-        <Header user={user} />
+        <Header />
         <Outlet />
     </>
   )

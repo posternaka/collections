@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 import { authURL, adminURL } from "../types/url";
 import { Container, Table, Button, Form } from 'react-bootstrap';
+import { useSelector } from "react-redux";
 
-const Admin = ({ token }) => {
+const Admin = () => {
+    const user = useSelector(state => state.user.user);
     const [choise, setChoise] = useState([]);
     const [usersData, setUsersData] = useState([]);
 
@@ -14,7 +16,7 @@ const Admin = ({ token }) => {
 
     const getUsers = async () => {
         try {
-            const users = await axios.get(`${adminURL}/users`, { headers: { "Authorization" : `Bearer ${ token }` }});
+            const users = await axios.get(`${adminURL}/users`, { headers: { "Authorization" : `Bearer ${ user?.token }` }});
             setUsersData(users.data);
         } catch (error) {
             console.log(error);

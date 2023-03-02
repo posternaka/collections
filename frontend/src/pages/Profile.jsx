@@ -6,8 +6,9 @@ import { getUserCollections } from '../redux/collection/asyncAction';
 import { Container, Row } from 'react-bootstrap';
 import CollectionCard from '../components/cards/collection/CollectionCard';
 
-const Profile = ({ user, isAdmin }) => {
-    const dispatch = useDispatch();
+const Profile = () => {
+    const dispatch = useDispatch();  
+    const user = useSelector(state => state.user.user);
     const collections = useSelector(state => state.collection.userCollections);
 
     useEffect(() => {

@@ -1,32 +1,31 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { FloatingLabel, Form, Stack, Button } from 'react-bootstrap';
-import axios from 'axios';
-import { authURL } from '../types/url';
+import { useState, useEffect } from 'react';
 
-const SignIn = ({ setUser }) => {
+import Spinner from '../components/UI/spinner/Spinner';
+import { FloatingLabel, Form, Stack, Button } from 'react-bootstrap';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { signIn } from '../redux/user/asyncAction';
+
+import DismissibleExample from '../components/UI/toast/Toast';
+
+const SignIn = () => {
+  const dispatch = useDispatch();
+  const { user, status, error } = useSelector(state => state.user);
+
   const navigate = useNavigate();
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
 
-  const signIn = async () => {
-    try {
-      const user = await axios.post(`${authURL}/signin`, {
-        username,
-        password
-      });
-      console.log(user);
-      if (!user) {
-        console.log('что-то пошло не так');
-        navigate("/signup");
-        return;
-      }
-      setUser(user.data);
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
+  const handleSignIn = () => {
+    dispatch(signIn({ username, password }));
   }
+
+  useEffect(() => {
+    if(user?.username) {
+      navigate('/');
+    }
+  }, [user])
 
   return (
     <Stack gap={2} className="col-md-5 mt-5 mx-auto">
@@ -48,9 +47,14 @@ const SignIn = ({ setUser }) => {
           </Link>
         </p>
       </div>
-      <Button className="d-grid gap-2 col-6 mx-auto" variant="primary" type="submit" onClick={() => signIn()} >
-        Confirm
-      </Button>
+      {
+        status && status === 'loading' 
+          ? <div className='mx-auto'><Spinner /></div>
+          : <Button className="d-grid gap-2 col-6 mx-auto" variant="primary" type="submit" onClick={() => handleSignIn()} >
+              Confirm
+            </Button>
+      }
+      { error && <DismissibleExample title={"Fail"} message={error} /> }
     </Stack>
   )
 }

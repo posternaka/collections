@@ -36,3 +36,20 @@ export const getTags = createAsyncThunk(
         }
     }
 )
+
+export const getLastTags = createAsyncThunk(
+    'tag/getLastTags',
+    async (_, { rejectWithValue }) => {
+        try {
+            const lastTags = await axios.get(`${tagUrl}/last`);
+
+            if(!lastTags.statusText) {
+                throw new Error('Server Error (GET ALL TAGS)');
+            }
+            return lastTags.data;
+        } catch (error) {
+            console.log(error);
+            return rejectWithValue(error.message);
+        }
+    }
+)

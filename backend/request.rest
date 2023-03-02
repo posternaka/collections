@@ -163,4 +163,4 @@ Content-Type: application/json
 
 
 ###
-GET http://localhost:5000/item/count
+GET http://localhost:5000/item/filter/21?filter=params.color&value=red

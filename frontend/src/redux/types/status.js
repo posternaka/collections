@@ -1,5 +1,5 @@
 export const STATUS = {
-    LOADING:'loading',
+    LOADING: 'loading',
     SUCCESS: 'success',
     ERROR: 'error'
 }

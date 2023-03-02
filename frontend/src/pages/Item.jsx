@@ -11,16 +11,15 @@ import { createComment, getComments, deleteComment } from '../redux/comment/asyn
 
 import { formatDate } from '../helpers/date';
 
-const Item = ({ user }) => {
+const Item = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const [commentValue, setCommentValue] = useState('');
-    const item = useSelector(state => state.item.item);
+    const item = useSelector(state => state.item?.item);
     const collection = useSelector(state => state.collection.collection);
-    const like = useSelector(state => state.like.like);
+    const like = useSelector(state => state.like?.like);
     const comments = useSelector(state => state.comment.comments);
-
-    console.log(item);
+    const user = useSelector(state => state.user.user);
 
     useEffect(() => {
         dispatch(getLike(user.id));
@@ -70,7 +69,7 @@ const Item = ({ user }) => {
                             }
                         </div>
                         {
-                            item.params && collection.settings && collection.settings.map((param, idx) => (
+                            item && item.params && collection.settings && collection.settings.map((param, idx) => (
                                 <div key={idx} className='d-flex gap-2'>
                                     <span className='opacity-75 fw-bold'>{joinValue(param.name)}: </span>
                                     <span>{item.params[param.name]}</span>
@@ -90,7 +89,7 @@ const Item = ({ user }) => {
                             <Button variant="primary" onClick={() => handleAddComment()} >Add</Button> 
                         </div>
                         {
-                            comments.map(comment => (
+                            comments && comments.map(comment => (
                                 <div>
                                     <Toast.Header closeButton={false}>
                                         <strong className="me-auto">{comment.username}</strong>

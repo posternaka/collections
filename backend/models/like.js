@@ -12,7 +12,7 @@ const Like = db.define('like',
         },
         itemId: {
             type: DataTypes.JSON,
-            allowNull: false,
+            allowNull: false
         }
     }
 );

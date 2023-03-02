@@ -69,6 +69,24 @@ class itemController {
         }
     }
 
+    async getLastItems (req, res) {
+        try {
+            const lastItems = await Item.findAll(
+                {
+                    limit: 5,
+                    order: [
+                        ['id', 'DESC']
+                    ]
+                }
+            );
+            
+            return res.status(200).json(lastItems);
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({ message: 'Failed to get item.'});
+        }
+    }
+
     async getItem (req, res) {
         try {
             const item = await Item.findOne(
@@ -116,9 +134,45 @@ class itemController {
             return res.status(200).json({ message: 'Item was successfully deleted.' })
         } catch (error) {
             console.log(error);
-            res.status(400).json({ message: 'Failed to create item.'})
+            res.status(400).json({ message: 'Failed to create item.'});
         }
     }  
+
+    async sortBy (req, res) {
+        try {
+            const result = await Item.findAll(
+                {
+                    where: {
+                        collectionId: req.params.id
+                    },
+                    order: [
+                        [req.query.sortBy, req.query.order]
+                    ]
+                }
+            );
+            return res.status(200).json(result);
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({ message: `Failed to sort by ${req.query}.`});
+        }
+    }
+
+    async filterName (req, res) {
+        try {
+            const result = await Item.findAll(
+                {
+                    where: {
+                        collectionId: req.params.id,
+                        [req.query.filter]: req.query.value
+                    },
+                }
+            );
+            return res.status(200).json(result);
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({ message: `Failed to filter by ${req.query}.`});
+        }
+    }
 }
 
 module.exports = new itemController;

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { deleteCollection } from '../../../redux/collection/asyncAction';
@@ -7,6 +7,7 @@ import { Card, Button } from 'react-bootstrap';
 
 const ViewCard = ({ collection, setIsEdit }) => {
     const dispatch = useDispatch();
+    const { pathname } = useLocation();
 
     return (
         <>
@@ -21,14 +22,18 @@ const ViewCard = ({ collection, setIsEdit }) => {
                         { collection.description }
                     </Card.Text>
                 </Link>
-                <div className='d-flex justify-content-end flex-row gap-2'>
-                    <Button variant="outline-warning" size="sm" onClick={() => setIsEdit(true)}>
-                        Edit 
-                    </Button>
-                    <Button variant="outline-danger" size="sm" onClick={() => dispatch(deleteCollection(collection.id))}>
-                        Delete
-                    </Button>
-                </div>
+                    {
+                        pathname === '/'
+                            ? ''
+                            :   <div className='d-flex justify-content-end flex-row gap-2'>
+                                    <Button variant="outline-warning" size="sm" onClick={() => setIsEdit(true)}>
+                                        Edit 
+                                    </Button>
+                                    <Button variant="outline-danger" size="sm" onClick={() => dispatch(deleteCollection(collection.id))}>
+                                        Delete
+                                    </Button>
+                                </div>
+                    }
             </Card.Body>
         </>
     )

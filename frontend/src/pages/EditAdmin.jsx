@@ -6,16 +6,17 @@ import { getUserCollections } from '../redux/collection/asyncAction';
 import { Container, Row } from 'react-bootstrap';
 import CollectionCard from '../components/cards/collection/CollectionCard';
 
-const EditAdmin = ({ user, isAdmin }) => {
+const EditAdmin = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const collections = useSelector(state => state.collection.userCollections);
+    const user = useSelector(state => state.user.user);
 
     useEffect(() => {
         dispatch(getUserCollections(id));
     }, []);
 
-    const link = isAdmin ? `/add_collection?userId=${id}` : `/add_collection`;
+    const link = user?.role === 'admin' ? `/add_collection?userId=${id}` : `/add_collection`;
 
     return (
         <Container>

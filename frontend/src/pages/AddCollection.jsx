@@ -19,13 +19,14 @@ import { THEMES, TYPES } from '../types/theme';
 
 import ModalWindow from '../components/UI/modal/ModalWindow';
 
-const AddCollection = ({ userId }) => {
+const AddCollection = () => {
     const dispatch = useDispatch();
     const collectionValues = useSelector(state => state.collection.updateCollection);
-    const navigate = useNavigate();
+    const user = useSelector(state => state.user.user);
 
+    const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const checkUserId = searchParams.get('userId') ? searchParams.get('userId') : userId;
+    const checkUserId = searchParams.get('userId') ? searchParams.get('userId') : user.id;
 
     const [show, setShow] = useState(false);
 

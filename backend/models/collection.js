@@ -6,28 +6,22 @@ const { DataTypes } = Sequelize;
 const Collection = db.define("collection",
     {
         idUser: {
-            type: DataTypes.STRING,
-            allowNull: false,
+            type: DataTypes.STRING
         },
         image: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.STRING
         },
         collectionName: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.STRING
         },
         theme: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.STRING
         },
         description: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.STRING
         },
         settings: {
-            type: DataTypes.JSON,
-            allowNull: false
+            type: DataTypes.JSON
         }
     }
 );

@@ -1,25 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FloatingLabel, Form, Stack, Button } from 'react-bootstrap';
-import axios from 'axios';
-import { authURL } from '../types/url';
+
+import Spinner from '../components/UI/spinner/Spinner';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { signUp } from '../redux/user/asyncAction';
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user, status } = useSelector(state => state.user);
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
 
-  const signUp = async () => {
-    try {
-      await axios.post(`${authURL}/signup`, {
-        username,
-        password
-      });
-      navigate("/signin");
-    } catch (error) {
-      console.log(error.message);
-    }
+  const handleSignUp = () => {
+    dispatch(signUp({ username, password }));
   }
+
+  useEffect(() => {
+    if(user?.username) {
+      navigate('/');
+    }
+  }, [user])
+
+  
 
   return (
     <Stack gap={2} className="col-md-5 mt-5 mx-auto">
@@ -33,9 +38,13 @@ const SignUp = () => {
       <FloatingLabel controlId="floatingPassword" label="Password">
         <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
       </FloatingLabel>
-      <Button className="d-grid gap-2 col-6 mx-auto mt-5" variant="primary" type="submit" onClick={() => signUp()} >
-        Confirm
-      </Button>
+      {
+        status && status === 'loading' 
+          ? <div className='mt-5 mx-auto'><Spinner /></div>
+          : <Button className="d-grid gap-2 col-6 mx-auto mt-5" variant="primary" type="submit" onClick={() => handleSignUp()} >
+              Confirm
+            </Button>
+      }
     </Stack>
   );
 }

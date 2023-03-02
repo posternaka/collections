@@ -54,6 +54,23 @@ export const getCollectionItems = createAsyncThunk(
     }
 )
 
+export const getLastItems = createAsyncThunk(
+    'item/getLastItems',
+    async (_, { rejectWithValue }) => {
+        try {
+            const lastItems = await axios.get(`${itemUrl}/last`);
+
+            if(!lastItems.statusText) {
+                throw new Error('Server Error (GET LAST ITEMS)');
+            }
+
+            return lastItems.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+)
+
 export const getItem = createAsyncThunk(
     'item/getItem',
     async (id, { rejectWithValue }) => {
@@ -116,6 +133,46 @@ export const deleteItem = createAsyncThunk(
             }
 
             dispatch(removeItem(id));
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+)
+
+export const itemSortBy = createAsyncThunk(
+    'item/itemSortBy',
+    async (params, { rejectWithValue, dispatch }) => {
+        try {
+            const sortBy = params.name ? `sortBy=${params.name}` : '';
+            const order = params.order ? `order=${params.order}` : '' ;
+
+            const result = await axios.get(`${itemUrl}/sort/${params.id}?${sortBy}&${order}`);
+
+            if(!result.statusText) {
+                throw new Error('Server Error (SORT BY ITEM)');
+            }
+
+            return result.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+)
+
+export const itemFilterBy = createAsyncThunk(
+    'item/itemFilterBy',
+    async (params, { rejectWithValue, dispatch }) => {
+        try {
+            const filter = params.name ? `filter=${params.name}` : '';
+            const value = params.value ? `value=${params.value}` : '' ;
+
+            const result = await axios.get(`${itemUrl}/filter/${params.id}?${filter}&${value}`);
+
+            if(!result.statusText) {
+                throw new Error('Server Error (SORT BY ITEM)');
+            }
+
+            return result.data;
         } catch (error) {
             return rejectWithValue(error.message);
         }

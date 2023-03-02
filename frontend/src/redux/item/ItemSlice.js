@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addItem, getAllItems, getCollectionItems, getItem, getCountCollectionItems, updateItem, deleteItem } from './asyncAction';
+import { addItem, getAllItems, getCollectionItems, getItem, getCountCollectionItems, getLastItems, updateItem, deleteItem, itemSortBy, itemFilterBy } from './asyncAction';
 import { STATUS } from '../types/status';
 
 const initialState = {
@@ -12,6 +12,7 @@ const initialState = {
     item: {},
     tags: [],
     countItems: [],
+    lastItems: [],
     status: STATUS.LOADING,
     error: null
 };
@@ -48,6 +49,22 @@ const itemSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(itemSortBy.pending, (state) => {
+                state.status = STATUS.LOADING;
+                state.error = null;
+            })
+            .addCase(itemSortBy.fulfilled, (state, action) => {
+                state.status = STATUS.SUCCESS;
+                state.collectionItems = action.payload;
+            })
+            .addCase(itemFilterBy.pending, (state) => {
+                state.status = STATUS.LOADING;
+                state.error = null;
+            })
+            .addCase(itemFilterBy.fulfilled, (state, action) => {
+                state.status = STATUS.SUCCESS;
+                state.collectionItems = action.payload;
+            })
             .addCase(getAllItems.pending, (state) => {
                 state.status = STATUS.LOADING;
                 state.error = null;
@@ -63,6 +80,14 @@ const itemSlice = createSlice({
             .addCase(getCountCollectionItems.fulfilled, (state, action) => {
                 state.status = STATUS.SUCCESS;
                 state.countItems = action.payload;
+            })
+            .addCase(getLastItems.pending, (state) => {
+                state.status = STATUS.LOADING;
+                state.error = null;
+            })
+            .addCase(getLastItems.fulfilled, (state, action) => {
+                state.status = STATUS.SUCCESS;
+                state.lastItems = action.payload;
             })
             .addCase(getCollectionItems.pending, (state) => {
                 state.status = STATUS.LOADING;

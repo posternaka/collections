@@ -20,6 +20,24 @@ class tagController {
             res.status(400).json({ message: 'Failed to get tags.'});
         }
     }
+
+    async getLastTags (req, res) {
+        try {
+            const result = await Tag.findAll(
+                {
+                    limit: 20,
+                    order: [
+                        ['id', 'DESC']
+                    ]
+                }
+            );
+            
+            return res.status(200).json(result);
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({ message: 'Failed to get tags.'});
+        }
+    }
 }
 
 module.exports = new tagController;

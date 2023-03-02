@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createTag, getTags } from './asyncAction';
+import { createTag, getTags, getLastTags } from './asyncAction';
 import { STATUS } from '../types/status';
 
 const initialState = {
     tags: [],
+    lastTags: [],
     status: STATUS.LOADING,
     error: null
 };
@@ -30,6 +31,14 @@ const tagSlice = createSlice({
             .addCase(getTags.fulfilled, (state, action) => {
                 state.status = STATUS.SUCCESS;
                 state.tags = action.payload;
+            })
+            .addCase(getLastTags.pending, (state) => {
+                state.status = STATUS.LOADING;
+                state.error = null;
+            })
+            .addCase(getLastTags.fulfilled, (state, action) => {
+                state.status = STATUS.SUCCESS;
+                state.lastTags = action.payload;
             })
             .addCase(createTag.rejected, setError)
     },

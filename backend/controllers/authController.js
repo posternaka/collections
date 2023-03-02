@@ -37,6 +37,9 @@ class authController {
             if (!user) {
                 return res.status(400).json({ message: `User ${username} not found.`});
             }
+            if (user.status === 'block') {
+                return res.status(400).json({ message: `User ${username} on the block.`});
+            }
             const validPassword = bcrypt.compareSync(password, user.password);
             if (!validPassword) {
                 return res.status(400).json({ message: "Wrong password entered."});
