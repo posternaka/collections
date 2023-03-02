@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllCollections } from '../redux/collection/asyncAction';
-import { getAllItems } from '../redux/item/asyncAction';
+import { getAllItems, getCountCollectionItems } from '../redux/item/asyncAction';
 import { getTags } from '../redux/tag/asyncAction';
+
+import { Link } from 'react-router-dom';
 
 import { Container, Col, Row } from 'react-bootstrap';
 
@@ -10,20 +12,14 @@ const Home = () => {
   const dispatch = useDispatch();
   const collection = useSelector(state => state.collection.allCollections);
   const item = useSelector(state => state.item.allItems);
-
-
-  // console.log(tag, 'tag');
-  // console.log(collection, 'collection');
-  // console.log(item, 'item');
+  const countItems = useSelector(state => state.item.countItems);
+  console.log(countItems);
 
   useEffect(()=> {
     dispatch(getAllCollections());
     dispatch(getAllItems());
     dispatch(getTags());
-  }, [])
-
-
-  useEffect(() => {
+    dispatch(getCountCollectionItems());
   }, []);
 
   return (

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Container, Row, Col, Card, Button, Form, ListGroup } from 'react-bootstrap';
 import { splitValue, joinValue } from '../helpers/index';
 
@@ -24,6 +24,9 @@ const AddCollection = ({ userId }) => {
     const collectionValues = useSelector(state => state.collection.updateCollection);
     const navigate = useNavigate();
 
+    const [searchParams] = useSearchParams();
+    const checkUserId = searchParams.get('userId') ? searchParams.get('userId') : userId;
+
     const [show, setShow] = useState(false);
 
     const handleSetJson = () => {
@@ -41,7 +44,7 @@ const AddCollection = ({ userId }) => {
 
     const saveSetting = () => {
         const newCollection = {
-            idUser : userId,
+            idUser: checkUserId,
             image: "img",
             collectionName: collectionValues.collectionName,
             theme : collectionValues.theme,
@@ -50,7 +53,7 @@ const AddCollection = ({ userId }) => {
         };
 
         dispatch(addCollection(newCollection));
-        navigate('/profile');
+        navigate(-1);
 
         dispatch(setCollectionName(''));
         dispatch(setCollectionTheme(THEMES[0]));

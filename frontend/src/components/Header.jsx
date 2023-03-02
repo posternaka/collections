@@ -19,7 +19,7 @@ const Header = ({ user }) => {
           />
           <Button variant="outline-success">Search</Button>
         </Form>
-          <Nav className='me-5'>
+          <Nav className='me-5 d-flex gap-2'>
             {
               user?.username &&
                     <Link to='/profile' className='text-decoration-none text-muted'>
@@ -28,11 +28,7 @@ const Header = ({ user }) => {
             }
             {
               user?.role === 'admin' &&
-                <NavDropdown title="ADMIN" id="navbarScrollingDropdown">
-                  <Link to='/admin'>
-                    admin
-                  </Link>
-                </NavDropdown>
+                <Link to='/admin'><Button variant="primary">ADMIN</Button></Link>
             }
             {
               !user &&
@@ -40,7 +36,7 @@ const Header = ({ user }) => {
             }
             {
               user &&
-                <Link to='/'><Button variant="light" className='ms-5'>Sign Out</Button></Link>
+                <Link to='/'><Button variant="light">Sign Out</Button></Link>
             }
           </Nav>
       </Container>

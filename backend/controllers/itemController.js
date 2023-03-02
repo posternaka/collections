@@ -1,4 +1,5 @@
 const Item = require('../models/item.js');
+const Collection = require('../models/collection.js');
 
 class itemController {
     async createItem (req, res) {
@@ -31,6 +32,37 @@ class itemController {
                 }
             );
             return res.status(200).json(collectionItems);
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({ message: 'Failed to get items.'})
+        }
+    }
+
+    async getCountCollectionItems (req, res) {
+        try {
+            const allItemsById = await Item.findAll({
+                attributes: ['collectionId'],
+            });
+
+            const groupedItems = allItemsById.reduce((acc, it) => {
+                acc[it.collectionId] 
+                    ? acc[it.collectionId] = { collectionId: it.collectionId, count: ++acc[it.collectionId].count } 
+                    : acc[it.collectionId] = { collectionId: it.collectionId, count: 1 }
+                return acc;
+            }, {});
+
+            const sortedItems = Object.values(groupedItems).sort((a, b) => b.count - a.count).map(it => +it.collectionId);
+
+            const allItems = await Collection.findAll(
+                {
+                    limit: 5,
+                    where: {
+                        id: [...sortedItems]
+                    }
+                }
+            );
+
+            return res.status(200).json(allItems);
         } catch (error) {
             console.log(error);
             res.status(400).json({ message: 'Failed to get items.'})

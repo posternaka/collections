@@ -15,14 +15,16 @@ const SignIn = ({ setUser }) => {
         username,
         password
       });
+      console.log(user);
       if (!user) {
         console.log('что-то пошло не так');
+        navigate("/signup");
         return;
       }
       setUser(user.data);
       navigate("/");
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   }
 

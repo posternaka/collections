@@ -71,6 +71,23 @@ export const getItem = createAsyncThunk(
     }
 )
 
+export const getCountCollectionItems = createAsyncThunk(
+    'item/getCountCollectionItems',
+    async (_, { rejectWithValue }) => {
+        try {
+            const countItemsCollection = await axios.get(`${itemUrl}/count`);
+
+            if(!countItemsCollection.statusText) {
+                throw new Error('Server Error (GET COUNT ITEMS COLLECTION)');
+            }
+
+            return countItemsCollection.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+)
+
 export const updateItem = createAsyncThunk(
     'item/updateItem',
     async (params, { rejectWithValue, dispatch }) => {

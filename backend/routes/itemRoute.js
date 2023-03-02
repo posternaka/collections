@@ -4,6 +4,7 @@ const itemController = require('../controllers/itemController.js');
 
 router.post('/', itemController.createItem);
 router.get('/', itemController.getAllItems);
+router.get('/count', itemController.getCountCollectionItems);
 router.get('/collection/:id', itemController.getCollectionItems);
 router.get('/:id', itemController.getItem);
 router.patch('/:id', itemController.updateItem);

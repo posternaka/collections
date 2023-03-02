@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addItem, getAllItems, getCollectionItems, getItem, updateItem, deleteItem } from './asyncAction';
+import { addItem, getAllItems, getCollectionItems, getItem, getCountCollectionItems, updateItem, deleteItem } from './asyncAction';
 import { STATUS } from '../types/status';
 
 const initialState = {
@@ -11,6 +11,7 @@ const initialState = {
     collectionItems: [],
     item: {},
     tags: [],
+    countItems: [],
     status: STATUS.LOADING,
     error: null
 };
@@ -54,6 +55,14 @@ const itemSlice = createSlice({
             .addCase(getAllItems.fulfilled, (state, action) => {
                 state.status = STATUS.SUCCESS;
                 state.allItems = action.payload;
+            })
+            .addCase(getCountCollectionItems.pending, (state) => {
+                state.status = STATUS.LOADING;
+                state.error = null;
+            })
+            .addCase(getCountCollectionItems.fulfilled, (state, action) => {
+                state.status = STATUS.SUCCESS;
+                state.countItems = action.payload;
             })
             .addCase(getCollectionItems.pending, (state) => {
                 state.status = STATUS.LOADING;

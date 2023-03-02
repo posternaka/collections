@@ -157,3 +157,10 @@ Content-Type: application/json
 {
     "itemId": ["25"]
 }
+
+
+
+
+
+###
+GET http://localhost:5000/item/count

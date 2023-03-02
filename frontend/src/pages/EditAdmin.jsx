@@ -11,7 +11,6 @@ const EditAdmin = ({ user, isAdmin }) => {
     const dispatch = useDispatch();
     const collections = useSelector(state => state.collection.userCollections);
 
-
     useEffect(() => {
         dispatch(getUserCollections(id));
     }, []);

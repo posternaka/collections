@@ -4,8 +4,6 @@ import axios from "axios";
 import { authURL, adminURL } from "../types/url";
 import { Container, Table, Button, Form } from 'react-bootstrap';
 
-const ROLE = ['user', 'admin'];
-
 const Admin = ({ token }) => {
     const [choise, setChoise] = useState([]);
     const [usersData, setUsersData] = useState([]);
