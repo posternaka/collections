@@ -19,15 +19,6 @@ const Header = () => {
             YOUR COLLECTION
           </Badge>
         </Link>
-        <Form className="d-flex">
-          <Form.Control
-            type="search"
-            placeholder="Search"
-            className="me-2"
-            aria-label="Search"
-          />
-          <Button variant="outline-success">Search</Button>
-        </Form>
           <Nav className='me-5 d-flex gap-2'>
             {
               pathname === '/signin' || pathname === '/signup'

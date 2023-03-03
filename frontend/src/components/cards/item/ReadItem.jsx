@@ -10,6 +10,7 @@ const ReadItem = ({ item, setIsEdit }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const collection = useSelector(state => state.collection.allCollections);
+  const user = useSelector(state => state.user.user);
 
   return (
     <Container>
@@ -17,16 +18,15 @@ const ReadItem = ({ item, setIsEdit }) => {
         <Card.Header className='d-flex justify-content-between align-items-center'>
           <span className='fw-bold'>{item.nameItem}</span>
             {
-              pathname === '/'
-                ? ''
-                : <div className='d-flex gap-2'>
+              user?.username &&
+                <div className='d-flex gap-2'>
                     <Button variant="outline-warning" size="sm" onClick={() => setIsEdit(true)} >
                         Edit 
                     </Button>
                     <Button variant="outline-danger" size="sm" onClick={() => dispatch(deleteItem(item.id))} >
                         Delete
                     </Button>
-                  </div>
+                </div>
             }
         </Card.Header>
         <ListGroup variant="flush">
@@ -43,7 +43,7 @@ const ReadItem = ({ item, setIsEdit }) => {
             </div>
             <Link to={`/item/${item.id}`} className='text-decoration-none text-reset'>
               {
-                collection && collection.find(col => col.id === +item.collectionId).settings.map((param, idx) => (
+                collection && collection.find(col => col.id === +item.collectionId)?.settings.map((param, idx) => (
                     <div key={idx} className='d-flex gap-2'>
                       {
                         item.params[param.name]

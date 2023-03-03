@@ -1,17 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { addCollection, getUserCollections, getAllCollections, getCollection, updateCollection, deleteCollection } from './asyncAction';
 import { STATUS } from '../types/status';
-import { THEMES, TYPES } from '../../types/theme';
 
 const initialState = {
-    updateCollection: {
-        collectionName: '',
-        theme: THEMES[0],
-        description: '',
-        optionName: '',
-        optionType: TYPES[0],
-        settingsCollection: [],
-    },
     userCollections: [],
     allCollections: [],
     collection: {},
@@ -28,27 +19,6 @@ const collectionSlice = createSlice({
     name: 'collection',
     initialState,
     reducers: {
-        setCollectionName (state, action) {
-            state.updateCollection.collectionName = action.payload;
-        },
-        setCollectionTheme (state, action) {
-            state.updateCollection.theme = action.payload;
-        },
-        setCollectionDesc (state, action) {
-            state.updateCollection.description = action.payload;
-        },
-        setCollectionSettings (state, action) {
-            state.updateCollection.settingsCollection.push(action.payload);
-        },
-        resetCollectionSettings (state) {
-            state.updateCollection.settingsCollection = [];
-        },
-        setOptionName (state, action) {
-            state.updateCollection.optionName = action.payload;
-        },
-        setOptionType (state, action) {
-            state.updateCollection.optionType = action.payload;
-        },
         addNewCollection (state, action) {
             state.userCollections.push(action.payload);
         },
@@ -98,4 +68,4 @@ const collectionSlice = createSlice({
 })
 
 export default collectionSlice.reducer;
-export const { setCollectionName, setCollectionTheme, setCollectionDesc, setCollectionSettings, resetCollectionSettings, setOptionName, setOptionType, addNewCollection, updateUserCollection, removeCollection } = collectionSlice.actions;
+export const { addNewCollection, updateUserCollection, removeCollection } = collectionSlice.actions;

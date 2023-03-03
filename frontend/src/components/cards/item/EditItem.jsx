@@ -26,8 +26,8 @@ const EditItem = ({ item, setIsEdit }) => {
     const tags = useSelector(state => state.tag.tags);
 
     const saveItemChanges = () => {
-        // const correctTags = tags.filter(tag => itemTags.includes(tag.tag)).map(tag => ({ id: tag.id, tag: tag.tag }));
-        dispatch(updateItem({ id: item.id, body: { nameItem: newName, params: options, tags: itemTags }}));
+        const correctTags = tags.filter(tag => itemTags.includes(tag.tag)).map(tag => ({ id: tag.id, tag: tag.tag }));
+        dispatch(updateItem({ id: item.id, body: { nameItem: newName, params: options, tags: correctTags }}));
         setIsEdit(false);
     }
 

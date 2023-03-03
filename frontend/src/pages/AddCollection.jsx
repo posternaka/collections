@@ -1,45 +1,35 @@
 import { useState } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Container, Row, Col, Card, Button, Form, ListGroup } from 'react-bootstrap';
-import { splitValue, joinValue } from '../helpers/index';
-
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { 
-    setCollectionName, 
-    setCollectionTheme, 
-    setCollectionDesc, 
-    setCollectionSettings, 
-    resetCollectionSettings,
-    setOptionName, 
-    setOptionType 
-} from '../redux/collection/collectionSlice';
-import { addCollection } from '../redux/collection/asyncAction';
+import { Container, Row, Col, Card, Button, Form, ListGroup} from 'react-bootstrap';
 
 import { THEMES, TYPES } from '../types/theme';
+import { splitValue, joinValue } from '../helpers/index';
+import { validButton } from '../helpers/validButton';
 
+import { addCollection } from '../redux/collection/asyncAction';
 import ModalWindow from '../components/UI/modal/ModalWindow';
+import InputMemo from '../components/UI/forms/InputMemo';
 
 const AddCollection = () => {
     const dispatch = useDispatch();
-    const collectionValues = useSelector(state => state.collection.updateCollection);
-    const user = useSelector(state => state.user.user);
-
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+    const user = useSelector(state => state.user.user);
     const checkUserId = searchParams.get('userId') ? searchParams.get('userId') : user.id;
-
     const [show, setShow] = useState(false);
 
-    const handleSetJson = () => {
-        dispatch(setCollectionSettings(
-            { 
-                name: splitValue(collectionValues.optionName), 
-                type: collectionValues.optionType, 
-                orders: collectionValues.settingsCollection.length + 1,
-            }
-        ));
-        dispatch(setOptionName(''));
-        dispatch(setOptionType(TYPES[0]));
+    const [nameCol, setNameCol] = useState('');
+    const [themeCol, setThemeCol] = useState(THEMES[0]);
+    const [descriptionCol, setDescriptionCol] = useState('');
+    const [nameOption, setNameOption] = useState('');
+    const [typeOption, setTypeOption] = useState(TYPES[0]);
+    const [groupOptions, setGroupOptions] = useState([]);
+
+    const setOptions = () => {
+        setGroupOptions([...groupOptions, { name: splitValue(nameOption.trim()), type: typeOption }]);
+        setNameOption('');
+        setTypeOption(TYPES[0]);
         setShow(false);
     }
 
@@ -47,19 +37,14 @@ const AddCollection = () => {
         const newCollection = {
             idUser: checkUserId,
             image: "img",
-            collectionName: collectionValues.collectionName,
-            theme : collectionValues.theme,
-            description : collectionValues.description,
-            settings : collectionValues.settingsCollection
+            collectionName: nameCol,
+            theme : themeCol,
+            description : descriptionCol,
+            settings : groupOptions
         };
 
         dispatch(addCollection(newCollection));
         navigate(-1);
-
-        dispatch(setCollectionName(''));
-        dispatch(setCollectionTheme(THEMES[0]));
-        dispatch(setCollectionDesc(''));
-        dispatch(resetCollectionSettings());
     }
 
     return (
@@ -73,16 +58,16 @@ const AddCollection = () => {
                                 <Form.Control type="file" size="lg" />
                             </Form.Group>
                             <div className='d-flex justify-content-between gap-5'>
-                                <Form.Control 
+                                <InputMemo 
                                     type="text" 
                                     placeholder="Collection Name"
-                                    value={collectionValues.collectionName}
-                                    onChange={(e) => dispatch(setCollectionName(e.target.value))}
+                                    value={nameCol}
+                                    onChange={ (e) => setNameCol(e.target.value) }
                                 />
                                 <Form.Select 
                                     aria-label="Default select example" 
-                                    value={collectionValues.theme}
-                                    onChange={ (e) => dispatch(setCollectionTheme(e.target.value)) }
+                                    value={themeCol}
+                                    onChange={ (e) => setThemeCol(e.target.value) }
                                 >
                                     {
                                         THEMES.map((it, idx) => (
@@ -91,27 +76,36 @@ const AddCollection = () => {
                                     }
                                 </Form.Select>
                             </div>
-                            <Form.Control 
+                            <InputMemo 
                                 as="textarea" 
                                 rows={3} 
-                                value={collectionValues.description}
-                                onChange={ (e) => dispatch(setCollectionDesc(e.target.value)) } 
+                                value={descriptionCol}
+                                onChange={ (e) => setDescriptionCol(e.target.value) } 
                             />
+
                             <span>Setting items in your collection:</span>
+
                             <div className="d-grid gap-2">
-                                <Button variant="light" onClick={() => setShow(true)}>+</Button>
-                                <ModalWindow show={show} setShow={setShow} handleSetJson={handleSetJson}>
+                                <Button variant="light" onClick={() => setShow(true)}> 
+                                    + 
+                                </Button>
+                                <ModalWindow 
+                                    show={show} 
+                                    setShow={setShow} 
+                                    onClick={setOptions}
+                                    valid={validButton(nameOption)}
+                                >
                                     <div className='d-flex gap-5'>
-                                        <Form.Control 
+                                        <InputMemo 
                                             type="text"
                                             placeholder="Name"
-                                            value={collectionValues.optionName}
-                                            onChange={ (e) => dispatch(setOptionName(e.target.value)) }
+                                            value={nameOption}
+                                            onChange={ (e) => setNameOption(e.target.value) }
                                         />
                                         <Form.Select 
                                             aria-label="Default select example"
-                                            value={collectionValues.optionType}
-                                            onChange={ (e) => dispatch(setOptionType(e.target.value)) }
+                                            value={typeOption}
+                                            onChange={ (e) => setTypeOption(e.target.value) }
                                         >
                                             {
                                                 TYPES.map((it, idx) => (
@@ -124,7 +118,7 @@ const AddCollection = () => {
                             </div>
                             <ListGroup variant="flush">
                                 {
-                                    collectionValues.settingsCollection.map((it, idx) => (
+                                    groupOptions.map((it, idx) => (
                                             <ListGroup.Item key={idx} className='d-flex gap-2'>
                                                 <Card.Title className='mb-0'>
                                                     {joinValue(it.name)}
@@ -137,7 +131,12 @@ const AddCollection = () => {
                                 }
                             </ListGroup>
                             <div className='d-flex justify-content-end flex-row gap-2'>
-                                <Button variant="primary" size="lg" onClick={() => saveSetting()}>
+                                <Button 
+                                    variant="primary" 
+                                    size="lg" 
+                                    onClick={() => saveSetting()}
+                                    disabled={nameCol && nameCol.trim() && groupOptions.length > 0 ? '' : 'disabled'}
+                                >
                                     Save 
                                 </Button>
                             </div>

@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { deleteCollection } from '../../../redux/collection/asyncAction';
 
@@ -8,6 +8,7 @@ import { Card, Button } from 'react-bootstrap';
 const ViewCard = ({ collection, setIsEdit }) => {
     const dispatch = useDispatch();
     const { pathname } = useLocation();
+    const itemsCollection = useSelector(state => state.item.collectionItems);
 
     return (
         <>

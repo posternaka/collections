@@ -13,6 +13,7 @@ const Collection = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const items = useSelector(state => state.item.collectionItems);
+    const user = useSelector(state => state.user.user);
     
     const paramsSort = items[0]?.params && ['nameItem', ...Object.keys(items[0].params)].reduce((acc, it) => {
         if(it === 'nameItem') {
@@ -25,17 +26,14 @@ const Collection = () => {
         return acc
     }, []);
 
-    const paramsFilter = items[0]?.params && Object.entries(items[0].params).reduce((acc, [key, value]) => {
-        acc.push({ name: `${value[0].toUpperCase()}${value.slice(1)}`, type: `params.${key}`, value })
-        return acc;
-    }, []);
-
-    // console.log(Object.entries(items[0].params));
-    // console.log(Object.values(items).reduce((acc, it) => {
-    //     const r = [...Object.values(it.params)];
-    //     acc.push(r)
-    //     return acc
-    // }, []));
+    const paramsFilter = items
+        .map((par) => {
+            return Object.entries(par.params).reduce((acc, [key, value]) => {
+                acc.push({ name: `${key} - ${value[0].toUpperCase()}${value.slice(1)}`, type: `params.${key}`, value })
+                return acc;
+            }, []);
+        })
+        .flat();
     
     useEffect(() => {
         dispatch(getCollectionItems(id));
@@ -53,13 +51,13 @@ const Collection = () => {
     return (
         <Container>
             {
-                
+                user?.username &&
+                    <Link to='/add_item' className='my-3 text-decoration-none d-flex flex-column justify-content-center align-items-center'>
+                        <span className='display-1'>+</span>
+                        <p>add new item</p>
+                    </Link>
             }
-            <Link to='/add_item' className='my-3 text-decoration-none d-flex flex-column justify-content-center align-items-center'>
-                <span className='display-1'>+</span>
-                <p>add new item</p>
-            </Link>
-            <div className='d-flex gap-3 justify-content-center'>
+            <div className='d-flex gap-3 justify-content-center mt-5'>
                 <DropdownItemTagsExample title='Sorting' params={paramsSort} onClick={handleSorting} />
                 <DropdownItemTagsExample title='Filter' params={paramsFilter} onClick={handleFilter} />
             </div>

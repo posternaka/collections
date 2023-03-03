@@ -69,7 +69,7 @@ const Item = () => {
                             }
                         </div>
                         {
-                            item && item.params && collection.settings && collection.settings.map((param, idx) => (
+                            item.params && collection.settings && collection.settings.map((param, idx) => (
                                 <div key={idx} className='d-flex gap-2'>
                                     <span className='opacity-75 fw-bold'>{joinValue(param.name)}: </span>
                                     <span>{item.params[param.name]}</span>
@@ -90,7 +90,7 @@ const Item = () => {
                         </div>
                         {
                             comments && comments.map(comment => (
-                                <div>
+                                <div key={comment.id}>
                                     <Toast.Header closeButton={false}>
                                         <strong className="me-auto">{comment.username}</strong>
                                         <small>{formatDate(comment.createdAt)}</small>

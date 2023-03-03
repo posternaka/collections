@@ -98,6 +98,7 @@ export const getCountCollectionItems = createAsyncThunk(
                 throw new Error('Server Error (GET COUNT ITEMS COLLECTION)');
             }
 
+            console.log(countItemsCollection.data);
             return countItemsCollection.data;
         } catch (error) {
             return rejectWithValue(error.message);

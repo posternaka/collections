@@ -7,8 +7,8 @@ function DropdownItemTagsExample({ title, params, onClick }) {
             <Dropdown.ItemText>{title}</Dropdown.ItemText>
                 {
                     params &&
-                        params.map(param => (
-                            <Dropdown.Item as="button" onClick={() => onClick(param.type, param.value)}>{param.name}</Dropdown.Item>
+                        params.map((param, idx) => (
+                            <Dropdown.Item key={idx} as="button" onClick={() => onClick(param.type, param.value)}>{param.name}</Dropdown.Item>
                         ))
                 }
         </DropdownButton>

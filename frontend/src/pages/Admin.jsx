@@ -3,25 +3,21 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 import { authURL, adminURL } from "../types/url";
 import { Container, Table, Button, Form } from 'react-bootstrap';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getUsers, deleteUser } from "../redux/admin/asyncAction"; 
 
 const Admin = () => {
+    const dispatch = useDispatch();
     const user = useSelector(state => state.user.user);
+    const users = useSelector(state => state.admin.users);
     const [choise, setChoise] = useState([]);
-    const [usersData, setUsersData] = useState([]);
+
+    console.log(users);
 
     useEffect(() => {
-        getUsers();
+        dispatch(getUsers(user?.token));
     }, []);
-
-    const getUsers = async () => {
-        try {
-            const users = await axios.get(`${adminURL}/users`, { headers: { "Authorization" : `Bearer ${ user?.token }` }});
-            setUsersData(users.data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
     const updateStatus = async (status) => {
         try {
@@ -50,12 +46,14 @@ const Admin = () => {
     }
 
     const deleteUsers = async () => {
-        try {
-            const ids = choise.map(it => it.id);
-            await axios.delete(`${adminURL}/users`, { data: ids });
-        } catch (error) {
+        const ids = choise.map(it => it.id);
+        dispatch(deleteUser({ data: ids }));
+
+        // try {
+        //     await axios.delete(`${adminURL}/users`, { data: ids });
+        // } catch (error) {
             
-        }
+        // }
     }
 
     const checkBox = (e, user) => {
@@ -98,22 +96,23 @@ const Admin = () => {
                 </thead>
                 <tbody>
                     {
-                        usersData.map((it) => (
-                            <tr key={it.id}>
-                                <td>{it.id}</td>
-                                <td>
-                                    <Form.Check type="checkbox" onChange={(e) => checkBox(e, it)} />
-                                </td>
-                                <td>{it.username}</td>
-                                <td>
-                                    <Link to={`/edit_admin/${it.id}`}>
-                                        collections
-                                    </Link>
-                                </td>
-                                <td>{it.role}</td>
-                                <td>{it.status}</td>
-                            </tr>
-                        ))
+                        users && 
+                            users.map((it) => (
+                                <tr key={it.id}>
+                                    <td>{it.id}</td>
+                                    <td>
+                                        <Form.Check type="checkbox" onChange={(e) => checkBox(e, it)} />
+                                    </td>
+                                    <td>{it.username}</td>
+                                    <td>
+                                        <Link to={`/edit_admin/${it.id}`}>
+                                            collections
+                                        </Link>
+                                    </td>
+                                    <td>{it.role}</td>
+                                    <td>{it.status}</td>
+                                </tr>
+                            ))
                     }
                 </tbody>
             </Table>

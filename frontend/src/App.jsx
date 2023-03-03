@@ -7,6 +7,7 @@ import { Profile, Collection, Admin, Home, Item, SignIn, SignUp, AddCollection, 
 
 const App = () => {
   return (
+    // <BrowserRouter basename={process.env.PUBLIC_URL}>
     <BrowserRouter>
       <Routes>
           <Route path="/" element={<Layout />}>
@@ -14,10 +15,10 @@ const App = () => {
             <Route path="signin" element={ <SignIn /> } />
             <Route path="signup" element={ <SignUp /> } />
             <Route path="*" element={ <NotFound /> } />
+            <Route path="/collection/:id" element={ <Collection  />} />
             <Route element={ <PrivateRoute /> }>
-              <Route path="/profile" element={ <Profile /> } />
-              <Route path="/collection/:id" element={ <Collection  />} />
               <Route path="/item/:id" element={ <Item />} />
+              <Route path="/profile" element={ <Profile /> } />
               <Route path="/add_item" element={ <AddItem />} />
               <Route path="/add_collection" element={ <AddCollection />} />
               {/* <Route path="/edit_admin/:id" element={ <EditAdmin token={ accessUser?.token } isAdmin={isAdmin} /> } /> */}

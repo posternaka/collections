@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateCollection } from '../../../redux/collection/asyncAction';
+import { getCollectionItems } from '../../../redux/item/asyncAction';
 
 import { Card, Form, Button } from 'react-bootstrap';
 
-import InputMemo from './InputMemo';
+import InputMemo from '../../UI/forms/InputMemo';
 
 import { fieldsMap } from '../../../types/theme';
 
@@ -12,14 +13,32 @@ import { THEMES, options } from '../../../types/theme';
 
 const ViewCard = ({ collection, setIsEdit }) => {
     const dispatch = useDispatch();
+    const itemsCollection = useSelector(state => state.item.collectionItems);
+
 
     // const Tag = fieldsMap[type];
     const Tag = fieldsMap.number;
+
+    useEffect(() => {
+        dispatch(getCollectionItems(collection.id));
+    }, []);
 
     const [newName, setNewName] = useState(collection.collectionName);
     const [newTheme, setNewTheme] = useState(collection.theme);
     const [newDesc, setNewDesc] = useState(collection.description);
     const [newSettings, setNewSettings] = useState(collection.settings);
+
+    console.log(itemsCollection, newSettings);
+
+    // const res = itemsCollection.map(item => {
+    //     return newSettings.reducer((acc, it) => {
+    //         item.params it.name
+
+    //         return acc
+    //     }, [])
+    // })
+
+    // console.log(res);
 
     const handleNewSettingsName = (id, name) => {
         setNewSettings(prevState => 

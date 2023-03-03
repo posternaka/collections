@@ -22,7 +22,8 @@ const adminSlice = createSlice({
             user.status = action.payload.status;
         },
         removeUser(state, action) {
-            state.users.filter(user => user.id !== action.payload.id);
+            const result = new Set(action.payload.data);
+            state.users.filter(user => !result.has(user));
         },
     },
     extraReducers: (builder) => {
@@ -33,10 +34,11 @@ const adminSlice = createSlice({
             })
             .addCase(getUsers.fulfilled, (state, action) => {
                 state.status = STATUS.SUCCESS;
-                state.tags = action.payload;
+                state.users = action.payload;
             })
             .addCase(updateStatus.rejected, setError)
             .addCase(deleteUser.rejected, setError)
+            .addCase(getUsers.rejected, setError)
     },
 })
 

@@ -1,4 +1,4 @@
-import InputMemo from "../components/cards/collection/InputMemo";
+import InputMemo from '../components/UI/forms/InputMemo';
 
 export const THEMES = ['Book', 'Movie', 'Game', 'Music', 'Car', 'Alcohol', 'Sport'];
 

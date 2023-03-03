@@ -5,9 +5,9 @@ import { adminURL } from '../../types/url';
 
 export const getUsers = createAsyncThunk(
     'admin/getUsers',
-    async (_, { rejectWithValue }) => {
+    async (token, { rejectWithValue }) => {
         try {
-            const users = await axios.get(`${adminURL}/users`, { headers: { "Authorization" : `Bearer ${ 'token' }` }});
+            const users = await axios.get(`${adminURL}/users`, { headers: { "Authorization" : `Bearer ${ token }` }});
 
             if(!users.statusText) {
                 throw new Error('Server Error (POST)');
@@ -39,15 +39,15 @@ export const updateStatus = createAsyncThunk(
 
 export const deleteUser = createAsyncThunk(
     'admin/deleteUser',
-    async (id, { rejectWithValue, dispatch }) => {
+    async (body, { rejectWithValue, dispatch }) => {
         try {
-            const user = await axios.delete(`${adminURL}/users`, { data: id });
+            const user = await axios.delete(`${adminURL}/users`, body);
 
             if(!user.statusText) {
                 throw new Error('Server Error (POST)');
             }
             
-            dispatch(removeUser(id));
+            dispatch(removeUser(body));
         } catch (error) {
             return rejectWithValue(error.message);
         }
